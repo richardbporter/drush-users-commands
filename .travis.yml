@@ -1,0 +1,33 @@
+sudo: false
+
+language: php
+
+php:
+- '5.6'
+- '7.1'
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  fast_finish: true
+
+before_install:
+  - composer self-update
+
+install:
+  # Add composer's global bin directory to the path.
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+
+  # Install dependencies.
+  - composer global require squizlabs/php_codesniffer
+  - composer install
+
+  # Ignore warnings on exit.
+  - phpcs --config-set ignore_warnings_on_exit 1
+
+
+script:
+  - phpcs --standard=PSR2 . --ignore='vendor,tests/coverage'
+  - ./vendor/bin/phpunit
