@@ -28,5 +28,8 @@
                 "drush.services.yml": "^9"
             }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "sort-packages": true
 }
