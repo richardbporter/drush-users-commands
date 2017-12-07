@@ -1,0 +1,5 @@
+services:
+  user_list.commands:
+    class: \Drupal\drush-users-commands\Commands\UsersCommands
+    tags:
+      - { name: drush.command }

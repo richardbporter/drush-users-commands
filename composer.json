@@ -1,0 +1,21 @@
+{
+    "name": "richardbporter/drush-users-commands",
+    "description": "Drush commands to interact with multiple Drupal users.",
+    "type": "drupal-drush",
+    "authors": [
+        {
+            "name": "Richard B. Porter",
+            "homepage": "richardbporter.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "extra": {
+        "drush": {
+            "services": {
+                "drush.services.yml": "^9"
+            }
+        }
+    }
+}
