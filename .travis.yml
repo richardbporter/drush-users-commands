@@ -20,13 +20,12 @@ install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
   # Install dependencies.
-  - composer global require squizlabs/php_codesniffer
-  - composer install
+  - composer install --no-suggest
 
   # Ignore warnings on exit.
   - phpcs --config-set ignore_warnings_on_exit 1
 
 
 script:
-  - phpcs --standard=PSR2 . --ignore='vendor,tests/coverage'
+  - ./vendor/bin/phpcs --standard=PSR2 . --ignore='vendor,tests/coverage'
   - ./vendor/bin/phpunit
