@@ -14,17 +14,12 @@ matrix:
 
 before_install:
   - composer self-update
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - composer g require drush/drush-launcher
 
 install:
-  # Add composer's global bin directory to the path.
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-
-  # Install dependencies.
   - composer install --no-suggest
-
-  # Ignore warnings on exit.
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
-
 
 script:
   - ./vendor/bin/phpcs --standard=PSR2 . --ignore='vendor,tests/coverage'
