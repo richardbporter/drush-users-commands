@@ -128,10 +128,12 @@ class UsersCommands extends DrushCommands
             $actual = user_roles(true);
             $rids = [];
 
-            // Create an array of role IDs but throw an exception for non-existent roles.
+            // Throw an exception for non-existent roles.
             foreach ($roles as $role) {
                 if (!isset($actual[$role])) {
-                    throw new \Exception(dt('Role @role does not exist.', array('@role' => $role)));
+                    throw new \Exception(dt('Role @role does not exist.', [
+                      '@role' => $role
+                    ]));
                 }
             }
 
@@ -141,9 +143,9 @@ class UsersCommands extends DrushCommands
         // Validate the last-login option.
         if ($last = $input->getOption('last-login')) {
             if (strtotime($last) === false) {
-                throw new \Exception(dt('Unable to convert @last to a timestamp.', array(
+                throw new \Exception(dt('Unable to convert @last to a timestamp.', [
                     '@last' => $last,
-                )));
+                ]));
             }
         }
     }
