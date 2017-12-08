@@ -28,7 +28,7 @@ class ToggleTestCase extends TestBase
         $output = $this->getOutputFromJSON();
 
         foreach ($output as $user) {
-          $this->assertEquals('blocked', $user->user_status);
+          $this->assertEquals(0, $user->user_status);
         }
       }
 
@@ -37,18 +37,18 @@ class ToggleTestCase extends TestBase
      */
     public function testUsersUnblocked() {
         // First block, then unblock.
-        $this->drush('herky-toggle-users', [], $this->siteOptions);
-        $this->drush('herky-toggle-users', [], $this->siteOptions);
-        $this->drush('user-information', ['foo, bar'], $this->siteOptions + $this->jsonOption);
+        $this->drush('users:toggle', [], $this->siteOptions);
+        $this->drush('users:toggle', [], $this->siteOptions);
+        $this->drush('user:information', ['foo, bar'], $this->siteOptions + $this->jsonOption);
 
         $output = $this->getOutputFromJSON();
 
         foreach ($output as $user) {
           if ($user->name == 'bar') {
-            $this->assertEquals('blocked', $user->user_status);
+            $this->assertEquals(0, $user->user_status);
           }
           elseif ($user->name == 'foo') {
-            $this->assertEquals('active', $user->user_status);
+            $this->assertEquals(1, $user->user_status);
           }
         }
     }
