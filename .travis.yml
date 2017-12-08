@@ -1,0 +1,27 @@
+sudo: false
+
+language: php
+
+php:
+- '7.1'
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  fast_finish: true
+
+before_install:
+  - composer self-update
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - composer g require drush/drush-launcher
+
+install:
+  - composer install --no-suggest
+  - ./vendor/drush/drush/unish.sut.php
+  - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+
+script:
+  - ./vendor/bin/phpcs --standard=PSR2 . --ignore='vendor,tests/coverage'
+  - ./vendor/bin/phpunit

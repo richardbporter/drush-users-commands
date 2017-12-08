@@ -9,7 +9,19 @@
         }
     ],
     "require": {
-        "php": ">=5.6.0"
+        "php": ">=5.6.0",
+        "composer/installers": "^1.4"
+    },
+    "require-dev": {
+        "drush/drush": "master",
+        "phpunit/phpunit": "~5",
+        "squizlabs/php_codesniffer": "~3"
+    },
+    "autoload-dev": {
+        "psr-4": {
+          "DrushUsersCommands\\Tests\\": "tests/",
+          "Unish\\": "vendor/drush/drush/tests/"
+        }
     },
     "extra": {
         "drush": {
@@ -17,5 +29,8 @@
                 "drush.services.yml": "^9"
             }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "sort-packages": true
 }
