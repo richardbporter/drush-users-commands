@@ -69,9 +69,35 @@ class ListTestCase extends TestBase
     }
 
     /**
-     * Test both options in combination.
+     * Test last-login option.
      */
-    public function testUsersReturnedByBoth()
+    public function testUsersReturnedByLogin()
+    {
+        // Update the login time for user 1. Drush user:login does not do this.
+        $now = time();
+
+        $this->drush(
+            'sql:query',
+            ["UPDATE users_field_data SET login={$now} WHERE uid=1;"],
+            $this->siteOptions
+        );
+
+        $this->drush(
+            'users:list',
+            [],
+            $this->siteOptions + ['last-login' => 'today']
+        );
+
+        $output = $this->getOutput();
+        $this->assertContains('admin', $output);
+        $this->assertNotContains('foo', $output);
+        $this->assertNotContains('bar', $output);
+    }
+
+    /**
+     * Test status and role options in combination.
+     */
+    public function testUsersReturnedByStatusRole()
     {
         $this->drush('user:create', ['baz'], $this->siteOptions);
         $this->drush('user:block', ['baz'], $this->siteOptions);
