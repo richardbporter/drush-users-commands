@@ -26,10 +26,12 @@ class ListTestCase extends TestBase
     public function testAllUsers()
     {
         $this->drush('users:list', [], $this->siteOptions);
+
         $output = $this->getOutput();
         $this->assertContains('foo', $output);
         $this->assertContains('bar', $output);
         $this->assertContains('admin', $output);
+        $this->assertNotContains('anonymous', $output);
     }
 
     /**
