@@ -39,7 +39,12 @@ class ListTestCase extends TestBase
      */
     public function testUsersReturnedByRole()
     {
-        $this->drush('users:list', [], $this->siteOptions + ['roles' => 'editor']);
+        $this->drush(
+            'users:list',
+            [],
+            $this->siteOptions + ['roles' => 'editor']
+        );
+
         $output = $this->getOutput();
         $this->assertContains('foo', $output);
         $this->assertNotContains('bar', $output);
@@ -51,7 +56,12 @@ class ListTestCase extends TestBase
      */
     public function testUsersReturnedByStatus()
     {
-        $this->drush('users:list', [], $this->siteOptions + ['status' => 'blocked']);
+        $this->drush(
+            'users:list',
+            [],
+            $this->siteOptions + ['status' => 'blocked']
+        );
+
         $output = $this->getOutput();
         $this->assertNotContains('foo', $output);
         $this->assertContains('bar', $output);
@@ -66,7 +76,13 @@ class ListTestCase extends TestBase
         $this->drush('user:create', ['baz'], $this->siteOptions);
         $this->drush('user:block', ['baz'], $this->siteOptions);
         $this->drush('user:role:add', ['editor', 'baz'], $this->siteOptions);
-        $this->drush('users:list', [], $this->siteOptions + ['roles' => 'editor', 'status' => 'blocked']);
+
+        $this->drush(
+            'users:list',
+            [],
+            $this->siteOptions + ['roles' => 'editor', 'status' => 'blocked']
+        );
+
         $output = $this->getOutput();
         $this->assertNotContains('foo', $output);
         $this->assertNotContains('bar', $output);
@@ -79,16 +95,28 @@ class ListTestCase extends TestBase
      */
     public function testValidation()
     {
-        $result = $this->drush('users:list', [], $this->siteOptions + ['roles' => 2], null, null, self::EXIT_ERROR);
+        // Role 'garbage' does not exist.
+        $result = $this->drush(
+            'users:list',
+            [],
+            $this->siteOptions + ['roles' => 'garbage'],
+            null,
+            null,
+            self::EXIT_ERROR
+        );
+
         $this->assertEquals(1, $result);
 
-        $result = $this->drush('users:list', [], $this->siteOptions + ['roles' => null], null, null, self::EXIT_ERROR);
-        $this->assertEquals(1, $result);
+        // Status 'garbage' does not exist;
+        $result = $this->drush(
+            'users:list',
+            [],
+            $this->siteOptions + ['status' => 'garbage'],
+            null,
+            null,
+            self::EXIT_ERROR
+        );
 
-        $result = $this->drush('users:list', [], $this->siteOptions + ['status' => null], null, null, self::EXIT_ERROR);
-        $this->assertEquals(1, $result);
-
-        $result = $this->drush('users:list', [], $this->siteOptions + ['status' => 'foo'], null, null, self::EXIT_ERROR);
         $this->assertEquals(1, $result);
     }
 }
