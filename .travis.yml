@@ -19,8 +19,7 @@ before_install:
 
 install:
   - composer install --no-suggest
-  - cd vendor/drush/drush && php unish.sut.php
-  - cd $TRAVIS_BUILD_DIR
+  - ./vendor/drush/drush/unish.sut.php
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
 
 script:
