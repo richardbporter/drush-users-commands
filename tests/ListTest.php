@@ -117,6 +117,54 @@ class ListTestCase extends TestBase
     }
 
     /**
+     * Test status, role and last-login options in combination.
+     */
+    public function testUsersReturnedByStatusRoleLogin() {
+        // Update the login time for user 1. Drush user:login does not do this.
+        $now = time();
+
+        $this->drush(
+            'sql:query',
+            ["UPDATE users_field_data SET login={$now} WHERE uid=1;"],
+            $this->siteOptions
+        );
+
+        // Create another administrator.
+        $this->drush('user:create', ['baz'], $this->siteOptions);
+        $this->drush('role:create', ['administrator'], $this->siteOptions);
+
+        $this->drush(
+            'user:role:add',
+            ['administrator', 'baz'],
+            $this->siteOptions
+        );
+
+        // Give the admin user the administrator role.
+        $this->drush(
+            'user:role:add',
+            ['administrator', 'admin'],
+            $this->siteOptions
+        );
+
+        $this->drush(
+            'users:list',
+            [],
+            $this->siteOptions + [
+                'roles' => 'administrator',
+                'status' => 'active',
+                'last-login' => 'today',
+            ]
+        );
+
+        $output = $this->getOutput();
+        $this->assertNotContains('baz', $output);
+        $this->assertNotContains('foo', $output);
+
+        // If baz is not in the output then 'admin' has to match user name.
+        $this->assertContains('admin', $output);
+    }
+
+    /**
      * Test validation.
      */
     public function testValidation()
