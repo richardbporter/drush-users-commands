@@ -6,6 +6,7 @@ use Consolidation\AnnotatedCommand\CommandData;
 use Drupal\user\Entity\User;
 use Drush\Commands\DrushCommands;
 use Drush\Drupal\Commands\core\UserCommands;
+use Drush\Exceptions\UserAbortException;
 use Symfony\Component\Console\Input\InputOption;
 
 class UsersCommands extends DrushCommands
@@ -146,6 +147,100 @@ class UsersCommands extends DrushCommands
                 throw new \Exception(dt('Unable to convert @last to a timestamp.', [
                     '@last' => $last,
                 ]));
+            }
+        }
+    }
+
+    /**
+     * Block and unblock users while keeping track of previous state.
+     *
+     * @command users:toggle
+     * @usage users:toggle
+     *   Block all users on the site.
+     * @aliases utog
+     * @bootstrap full
+     */
+    public function toggle()
+    {
+        // Get all users.
+        $ids = \Drupal::entityQuery('user')
+            ->condition('uid', 0, '!=')
+            ->execute();
+
+        if ($users = User::loadMultiple($ids)) {
+            // The toggle status is determined by the last command run.
+            $status = \Drupal::state()->get('utog_status', 'unblocked');
+            $previous = \Drupal::state()->get('utog_previous', []);
+
+            $this->logger()->notice(dt('Toggle status: @status', [
+                '@status' => $status
+            ]));
+
+            if ($status == 'unblocked') {
+                $block = [];
+
+                foreach ($users as $user) {
+                    $name = $user->getAccountName();
+
+                    if ($user->isActive() == false) {
+                        $previous[] = $name;
+                    }
+                    else {
+                    $block[] = $name;
+                    }
+                }
+
+                $block_list = implode(', ', $block);
+
+                if (!$this->io()->confirm(dt(
+                    'You will block @names. Are you sure?',
+                    ['@names' => $block_list]
+                ))) {
+                    throw new UserAbortException();
+                }
+
+                // Turn off activation/deactivation emails.
+                // @todo: Make this an option.
+                \Drupal::configFactory()->getEditable('users.settings')->set('notify.status_activated', false);
+                \Drupal::configFactory()->getEditable('users.settings')->set('notify.status_blocked', false);
+
+                if (drush_invoke_process('@self', 'user:block', [$block_list])) {
+                    \Drupal::state()->set('utog_previous', $previous);
+                    \Drupal::state()->set('utog_status', 'blocked');
+                }
+             }
+             else {
+                if (empty($previous)) {
+                    $this->logger()->notice(dt('No previously-blocked users.'));
+                }
+                else {
+                    $this->logger()->notice(dt(
+                        'Previously blocked users: @names.',
+                        array('@names' => implode(', ', $previous),
+                    )));
+                }
+
+                $unblock = array();
+
+                foreach ($users as $user) {
+                    if (!in_array($user->getAccountName(), $previous)) {
+                        $unblock[] = $user->getAccountName();
+                    }
+                }
+
+                $unblock_list = implode(', ', $unblock);
+
+                if (!$this->io()->confirm(dt(
+                    'You will unblock @unblock. Are you sure?',
+                    array('@unblock' => $unblock_list,
+                )))) {
+                    throw new UserAbortException();
+                }
+
+                if (drush_invoke_process('@self', 'user:unblock', [$unblock_list])) {
+                     \Drupal::state()->set('utog_previous', array());
+                    \Drupal::state()->set('utog_status', 'unblocked');
+                }
             }
         }
     }
