@@ -18,7 +18,7 @@ class UsersCommands extends DrushCommands
    * @command users:list
    * @param array $options An associative array of options.
    * @option status Filter by status of the account. Can be active or blocked.
-   * @option roles A comma sepparated list of roles to filter by.
+   * @option roles A comma separated list of roles to filter by.
    * @option last-login Filter by last login date. Can be relative.
    * @usage user:list
    *   Display all users on the site.
@@ -156,7 +156,7 @@ class UsersCommands extends DrushCommands
      *
      * @command users:toggle
      * @usage users:toggle
-     *   Block all users on the site.
+     *   Block/unblock all users on the site. Based on previous state.
      * @aliases utog
      * @bootstrap full
      */
@@ -177,6 +177,10 @@ class UsersCommands extends DrushCommands
             ]));
 
             if ($status == 'unblocked') {
+                if (\Drupal::configFactory()->getEditable('user.settings')->get('notify.status_blocked')) {
+                    $this->logger()->warning(dt('Account blocked email notifications are currently enabled.'));
+                }
+
                 $block = [];
 
                 foreach ($users as $user) {
@@ -199,17 +203,16 @@ class UsersCommands extends DrushCommands
                     throw new UserAbortException();
                 }
 
-                // Turn off activation/deactivation emails.
-                // @todo: Make this an option.
-                \Drupal::configFactory()->getEditable('users.settings')->set('notify.status_activated', false);
-                \Drupal::configFactory()->getEditable('users.settings')->set('notify.status_blocked', false);
-
                 if (drush_invoke_process('@self', 'user:block', [$block_list])) {
                     \Drupal::state()->set('utog_previous', $previous);
                     \Drupal::state()->set('utog_status', 'blocked');
                 }
              }
              else {
+                if (\Drupal::configFactory()->getEditable('user.settings')->get('notify.status_activated')) {
+                    $this->logger()->warning(dt('Account activation email notifications are currently enabled.'));
+                }
+
                 if (empty($previous)) {
                     $this->logger()->notice(dt('No previously-blocked users.'));
                 }
@@ -244,4 +247,5 @@ class UsersCommands extends DrushCommands
             }
         }
     }
+
 }
