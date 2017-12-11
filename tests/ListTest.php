@@ -119,7 +119,8 @@ class ListTestCase extends TestBase
     /**
      * Test status, role and last-login options in combination.
      */
-    public function testUsersReturnedByStatusRoleLogin() {
+    public function testUsersReturnedByStatusRoleLogin()
+    {
         // Update the login time for user 1. Drush user:login does not do this.
         $now = time();
 

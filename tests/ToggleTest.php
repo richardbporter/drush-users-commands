@@ -21,21 +21,23 @@ class ToggleTestCase extends TestBase
     /**
      * Test users are correctly blocked.
      */
-    public function testUsersBlocked() {
+    public function testUsersBlocked()
+    {
         $this->drush('users:toggle', [], $this->siteOptions);
         $this->drush('user:information', ['foo, bar'], $this->siteOptions + $this->jsonOption);
 
         $output = $this->getOutputFromJSON();
 
         foreach ($output as $user) {
-          $this->assertEquals(0, $user->user_status);
+            $this->assertEquals(0, $user->user_status);
         }
-      }
+    }
 
     /**
      * Test users are correctly unblocked.
      */
-    public function testUsersUnblocked() {
+    public function testUsersUnblocked()
+    {
         // First block, then unblock.
         $this->drush('users:toggle', [], $this->siteOptions);
         $this->drush('users:toggle', [], $this->siteOptions);
@@ -44,12 +46,11 @@ class ToggleTestCase extends TestBase
         $output = $this->getOutputFromJSON();
 
         foreach ($output as $user) {
-          if ($user->name == 'bar') {
-            $this->assertEquals(0, $user->user_status);
-          }
-          elseif ($user->name == 'foo') {
-            $this->assertEquals(1, $user->user_status);
-          }
+            if ($user->name == 'bar') {
+                $this->assertEquals(0, $user->user_status);
+            } elseif ($user->name == 'foo') {
+                $this->assertEquals(1, $user->user_status);
+            }
         }
     }
 }

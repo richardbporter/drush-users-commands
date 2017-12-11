@@ -188,9 +188,8 @@ class UsersCommands extends DrushCommands
 
                     if ($user->isActive() == false) {
                         $previous[] = $name;
-                    }
-                    else {
-                    $block[] = $name;
+                    } else {
+                        $block[] = $name;
                     }
                 }
 
@@ -207,20 +206,19 @@ class UsersCommands extends DrushCommands
                     \Drupal::state()->set('utog_previous', $previous);
                     \Drupal::state()->set('utog_status', 'blocked');
                 }
-             }
-             else {
+            } else {
                 if (\Drupal::configFactory()->getEditable('user.settings')->get('notify.status_activated')) {
                     $this->logger()->warning(dt('Account activation email notifications are currently enabled.'));
                 }
 
                 if (empty($previous)) {
                     $this->logger()->notice(dt('No previously-blocked users.'));
-                }
-                else {
+                } else {
                     $this->logger()->notice(dt(
                         'Previously blocked users: @names.',
                         array('@names' => implode(', ', $previous),
-                    )));
+                        )
+                    ));
                 }
 
                 $unblock = array();
@@ -236,7 +234,8 @@ class UsersCommands extends DrushCommands
                 if (!$this->io()->confirm(dt(
                     'You will unblock @unblock. Are you sure?',
                     array('@unblock' => $unblock_list,
-                )))) {
+                    )
+                ))) {
                     throw new UserAbortException();
                 }
 
@@ -247,5 +246,4 @@ class UsersCommands extends DrushCommands
             }
         }
     }
-
 }
