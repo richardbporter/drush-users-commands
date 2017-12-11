@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/richardbporter/drush-users-commands.svg?branch=master)](https://travis-ci.org/richardbporter/drush-users-commands)
+
 # drush-users-commands
 Drush commands to interact with multiple Drupal users.
 
