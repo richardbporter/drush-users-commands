@@ -155,6 +155,7 @@ class UsersCommands extends DrushCommands
      * Block and unblock users while keeping track of previous state.
      *
      * @command users:toggle
+     * @option notify Notify users of account activation/deactivation if site configuration allows.
      * @usage users:toggle
      *   Block all users on the site.
      * @aliases utog
