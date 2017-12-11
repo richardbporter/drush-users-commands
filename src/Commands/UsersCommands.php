@@ -157,7 +157,9 @@ class UsersCommands extends DrushCommands
      * @command users:toggle
      * @option notify Notify users of account activation/deactivation if site configuration allows.
      * @usage users:toggle
-     *   Block all users on the site.
+     *   Block all users on the site without notifying them.
+     * @usage users:toggle --notify
+     *   Block all users on the site and send account notifications if site configuration allows.
      * @aliases utog
      * @bootstrap full
      */
