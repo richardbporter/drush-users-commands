@@ -28,7 +28,7 @@ class UsersCommands extends DrushCommands
    *   Displays a list of users with the admin role.
    * @usage user:list --last-login="1 year ago"
    *   Displays a list of users who have logged in within a year.
-   * @aliases ulist
+   * @aliases ulist, user-list, list-users
    * @bootstrap full
    * @field-labels
    *   uid: User ID
