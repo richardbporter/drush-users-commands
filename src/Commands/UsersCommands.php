@@ -18,7 +18,7 @@ class UsersCommands extends DrushCommands
    * @command users:list
    * @param array $options An associative array of options.
    * @option status Filter by status of the account. Can be active or blocked.
-   * @option roles A comma sepparated list of roles to filter by.
+   * @option roles A comma separated list of roles to filter by.
    * @option last-login Filter by last login date. Can be relative.
    * @usage user:list
    *   Display all users on the site.
@@ -163,7 +163,7 @@ class UsersCommands extends DrushCommands
      * @aliases utog
      * @bootstrap full
      */
-    public function toggle()
+    public function toggle($options = ['notify' == InputOption::VALUE_NONE])
     {
         // Get all users.
         $ids = \Drupal::entityQuery('user')
