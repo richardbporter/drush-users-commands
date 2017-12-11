@@ -29,7 +29,7 @@ statuses:
 - qux   -> blocked
 
 Running `drush users:toggle` will block admin, bar and baz. Running
-`drush users:toggle` will unblock admin, bar and baz but foo and qux stay
-blocked since that was their previous status.
+`drush users:toggle` again will unblock admin, bar and baz but foo and 
+qux stay blocked since that was their previous status.
 
 Aliases: utog
