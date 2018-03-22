@@ -19,8 +19,8 @@ for filtering options.
 Aliases: ulist, user-list, list-users
 
 ### drush users:toggle
-Block/unblock all users while keeping track of previous state. 
- 
+Block/unblock all users while keeping track of previous state.
+
 For example, say you have the following five users with corresponding
 statuses:
 
@@ -31,7 +31,7 @@ statuses:
 - qux   -> blocked
 
 Running `drush users:toggle` will block admin, bar and baz. Running
-`drush users:toggle` again will unblock admin, bar and baz but foo and 
+`drush users:toggle` again will unblock admin, bar and baz but foo and
 qux stay blocked since that was their previous status.
 
 Aliases: utog
