@@ -32,6 +32,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "sort-packages": true
+    "prefer-stable": true
 }
