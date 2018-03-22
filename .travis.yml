@@ -14,8 +14,6 @@ matrix:
 
 before_install:
   - composer self-update
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer g require drush/drush-launcher
 
 install:
   - composer install --no-suggest
