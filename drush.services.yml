@@ -1,5 +1,5 @@
 services:
-  drush-users-commands.commands:
-    class: \Drupal\drush-users-commands\Commands\UsersCommands
+  users.commands:
+    class: \Drush\Commands\UsersCommands
     tags:
       - { name: drush.command }

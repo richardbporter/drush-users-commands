@@ -2,7 +2,7 @@
 
 namespace DrushUsersCommands\Tests;
 
-use DrushUsersCommands\Tests\TestBase;
+use UsersCommands\Tests\TestBase;
 
 class ListTestCase extends TestBase
 {

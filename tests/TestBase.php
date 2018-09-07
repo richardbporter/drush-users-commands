@@ -1,6 +1,6 @@
 <?php
 
-namespace DrushUsersCommands\Tests;
+namespace UsersCommands\Tests;
 
 use Unish\CommandUnishTestCase;
 

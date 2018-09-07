@@ -4,11 +4,20 @@
 Drush commands to interact with multiple Drupal users.
 
 ## Requirements
-- Drush 9
+- Drush ^9.4
 - Drupal 8
 
 ## Installation
-`composer require richardbporter/drush-users-commands`
+Since this is a [global Drush command](http://docs.drush.org/en/master/commands/#global-drush-commands), it will only be
+found when installed in certain directories. It is recommended to update your Composer installers path for drupal-drush
+packages to:
+ ```
+ "drush/Commands/{$name}": ["type:drupal-drush"]
+ ```
+ Then install it as usual: 
+ ```
+ composer require richardbporter/drush-users-commands
+ ```
 
 ## Commands
 

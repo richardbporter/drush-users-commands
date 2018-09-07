@@ -19,6 +19,7 @@ install:
   - composer install --no-suggest
   - ./vendor/drush/drush/unish.sut.php
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+  - ln -s ../ Commands
 
 script:
   - ./vendor/bin/phpcs --standard=PSR2 . --ignore='vendor,tests/coverage'

@@ -1,5 +1,5 @@
 <?php
-namespace Drush\Commands;
+namespace Drush\Commands\UsersCommands;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\AnnotatedCommand\CommandData;
@@ -214,14 +214,10 @@ class UsersCommands extends DrushCommands
                 if (empty($previous)) {
                     $this->logger()->notice(dt('No previously-blocked users.'));
                 } else {
-                    $this->logger()->notice(dt(
-                        'Previously blocked users: @names.',
-                        array('@names' => implode(', ', $previous),
-                        )
-                    ));
+                    $this->logger()->notice(dt('Previously blocked users: @names.', ['@names' => implode(', ', $previous)]));
                 }
 
-                $unblock = array();
+                $unblock = [];
 
                 foreach ($users as $user) {
                     if (!in_array($user->getAccountName(), $previous)) {
@@ -231,16 +227,12 @@ class UsersCommands extends DrushCommands
 
                 $unblock_list = implode(', ', $unblock);
 
-                if (!$this->io()->confirm(dt(
-                    'You will unblock @unblock. Are you sure?',
-                    array('@unblock' => $unblock_list,
-                    )
-                ))) {
+                if (!$this->io()->confirm(dt('You will unblock @unblock. Are you sure?', ['@unblock' => $unblock_list]))) {
                     throw new UserAbortException();
                 }
 
                 if (drush_invoke_process('@self', 'user:unblock', [$unblock_list])) {
-                     \Drupal::state()->set('utog_previous', array());
+                     \Drupal::state()->set('utog_previous', []);
                     \Drupal::state()->set('utog_status', 'unblocked');
                 }
             }
