@@ -20,7 +20,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-          "DrushUsersCommands\\Tests\\": "tests/",
+          "UsersCommands\\Tests\\": "tests/",
           "Unish\\": "vendor/drush/drush/tests/"
         }
     },
