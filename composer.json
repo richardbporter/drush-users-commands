@@ -29,7 +29,8 @@
             "services": {
                 "drush.services.yml": "^9"
             }
-        }
+        },
+        "installer-name": "UsersCommands"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
