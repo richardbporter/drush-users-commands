@@ -1,5 +1,5 @@
 <?php
-namespace Drush\Commands;
+namespace Drush\Commands\UsersCommands;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\AnnotatedCommand\CommandData;
