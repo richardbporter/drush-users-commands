@@ -19,7 +19,6 @@ abstract class TestBase extends CommandUnishTestCase
           'root' => $root,
           'uri' => $site,
           'yes' => null,
-          'include' => dirname(__DIR__),
         ];
 
         $this->jsonOption = [
