@@ -213,7 +213,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
                     throw new UserAbortException();
                 }
 
-                if (drush_invoke_process('@self', 'user:block', [$block_list])) {
+                if (Drush::drush($this->siteAliasManager()->getSelf(), 'user:block', [$block_list])) {
                     \Drupal::state()->set('utog_previous', $previous);
                     \Drupal::state()->set('utog_status', 'blocked');
                 }
@@ -242,7 +242,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
                     throw new UserAbortException();
                 }
 
-                if (drush_invoke_process('@self', 'user:unblock', [$unblock_list])) {
+                if (Drush::drush($this->siteAliasManager()->getSelf(), 'user:unblock', [$unblock_list])) {
                      \Drupal::state()->set('utog_previous', []);
                     \Drupal::state()->set('utog_status', 'unblocked');
                 }
