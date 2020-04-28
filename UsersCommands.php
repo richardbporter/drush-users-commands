@@ -4,13 +4,17 @@ namespace Drush\Commands\UsersCommands;
 use Consolidation\OutputFormatters\Options\FormatterOptions;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\AnnotatedCommand\CommandData;
+use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
 use Drupal\user\Entity\User;
 use Drush\Commands\DrushCommands;
+use Drush\Drush;
 use Drush\Exceptions\UserAbortException;
+use Drush\SiteAlias\SiteAliasManagerAwareInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class UsersCommands extends DrushCommands
+class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterface
 {
+    use SiteAliasManagerAwareTrait;
 
   /**
    * Display a list of Drupal users.
