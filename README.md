@@ -14,7 +14,7 @@ packages to:
  ```
  "drush/Commands/{$name}": ["type:drupal-drush"]
  ```
- Then install it as usual: 
+ Then install it as usual:
  ```
  composer require richardbporter/drush-users-commands
  ```

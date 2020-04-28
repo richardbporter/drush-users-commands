@@ -16,11 +16,9 @@ before_install:
   - composer self-update
 
 install:
-  - composer install --no-suggest
+  - composer install --no-suggest --prefer-source
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
-  - ./vendor/drush/drush/unish.sut.php
-  - ./tests/sut.cp.php
 
 script:
-  - ./vendor/bin/phpcs --standard=PSR2 . --ignore='vendor,tests/coverage'
+  - ./vendor/bin/phpcs --standard=PSR2 . --ignore='.scenarios.lock,vendor,tests/coverage'
   - ./vendor/bin/phpunit
