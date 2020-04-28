@@ -180,7 +180,7 @@ class ListTestCase extends TestBase
             self::EXIT_ERROR
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertContains('Role garbage does not exist.', $this->getErrorOutput());
 
         // Status 'garbage' does not exist;
         $result = $this->drush(
@@ -192,6 +192,6 @@ class ListTestCase extends TestBase
             self::EXIT_ERROR
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertContains('Unknown status garbage.', $this->getErrorOutput());
     }
 }
