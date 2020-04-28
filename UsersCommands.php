@@ -120,7 +120,7 @@ class UsersCommands extends DrushCommands
 
         if ($status = $input->getOption('status')) {
             if (!in_array($status, $options)) {
-                throw new \Exception(dt('Unkown status @status. Status must be one of @options.', [
+                throw new \Exception(dt('Unknown status @status. Status must be one of @options.', [
                     '@status' => $status,
                     '@options' => implode(', ', $options),
                 ]));
