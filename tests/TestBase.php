@@ -16,15 +16,16 @@ abstract class TestBase extends CommandUnishTestCase
         $root = $this->webroot();
 
         $this->siteOptions = [
-          'root' => $root,
-          'uri' => $site,
-          'yes' => null,
+            'root' => $root,
+            'uri' => $site,
+            'yes' => null,
+            'include' => dirname(__DIR__, 3),
         ];
 
         $this->jsonOption = [
-          'format' => 'json',
+            'format' => 'json',
         ];
 
-        $this->drush('cr', [], $this->siteOptions);
+        $this->drush('cc', ['drush'], $this->siteOptions);
     }
 }

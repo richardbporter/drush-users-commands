@@ -29,7 +29,7 @@ class ToggleTestCase extends TestBase
         $output = $this->getOutputFromJSON();
 
         foreach ($output as $user) {
-            $this->assertEquals(0, $user->user_status);
+            $this->assertEquals(0, $user['user_status']);
         }
     }
 
@@ -46,10 +46,10 @@ class ToggleTestCase extends TestBase
         $output = $this->getOutputFromJSON();
 
         foreach ($output as $user) {
-            if ($user->name == 'bar') {
-                $this->assertEquals(0, $user->user_status);
-            } elseif ($user->name == 'foo') {
-                $this->assertEquals(1, $user->user_status);
+            if ($user['name'] == 'bar') {
+                $this->assertEquals(0, $user['user_status']);
+            } elseif ($user['name'] == 'foo') {
+                $this->assertEquals(1, $user['user_status']);
             }
         }
     }

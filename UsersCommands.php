@@ -1,16 +1,20 @@
 <?php
 namespace Drush\Commands\UsersCommands;
 
+use Consolidation\OutputFormatters\Options\FormatterOptions;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\AnnotatedCommand\CommandData;
+use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
 use Drupal\user\Entity\User;
 use Drush\Commands\DrushCommands;
-use Drush\Drupal\Commands\core\UserCommands;
+use Drush\Drush;
 use Drush\Exceptions\UserAbortException;
+use Drush\SiteAlias\SiteAliasManagerAwareInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class UsersCommands extends DrushCommands
+class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterface
 {
+    use SiteAliasManagerAwareTrait;
 
   /**
    * Display a list of Drupal users.
@@ -20,13 +24,13 @@ class UsersCommands extends DrushCommands
    * @option status Filter by status of the account. Can be active or blocked.
    * @option roles A comma separated list of roles to filter by.
    * @option last-login Filter by last login date. Can be relative.
-   * @usage user:list
+   * @usage users:list
    *   Display all users on the site.
-   * @usage user:list --status=blocked
+   * @usage users:list --status=blocked
    *   Displays a list of blocked users.
-   * @usage user:list --roles=admin
+   * @usage users:list --roles=admin
    *   Displays a list of users with the admin role.
-   * @usage user:list --last-login="1 year ago"
+   * @usage users:list --last-login="1 year ago"
    *   Displays a list of users who have logged in within a year.
    * @aliases ulist, user-list, list-users
    * @bootstrap full
@@ -81,15 +85,20 @@ class UsersCommands extends DrushCommands
         $ids = $query->execute();
 
         if ($users = User::loadMultiple($ids)) {
-            $command = new UserCommands();
             $rows = [];
 
             foreach ($users as $id => $user) {
-                $rows[$id] = $command->infoArray($user);
+                $rows[$id] = $this->infoArray($user);
             }
 
             $result = new RowsOfFields($rows);
-            $result->addRendererFunction([$command, 'renderRolesCell']);
+            $result->addRendererFunction(function($key, $cellData, FormatterOptions $options) {
+                if (is_array($cellData)) {
+                    return implode("\n", $cellData);
+                }
+                return $cellData;
+            });
+
             return $result;
         } else {
             throw new \Exception(dt('No users found.'));
@@ -101,6 +110,8 @@ class UsersCommands extends DrushCommands
      *
      * @param \Consolidation\AnnotatedCommand\CommandData $commandData
      * @return \Consolidation\AnnotatedCommand\CommandError|null
+     *
+     * @throws \Exception
      */
     public function validateList(CommandData $commandData)
     {
@@ -113,7 +124,7 @@ class UsersCommands extends DrushCommands
 
         if ($status = $input->getOption('status')) {
             if (!in_array($status, $options)) {
-                throw new \Exception(dt('Unkown status @status. Status must be one of @options.', [
+                throw new \Exception(dt('Unknown status @status. Status must be one of @options.', [
                     '@status' => $status,
                     '@options' => implode(', ', $options),
                 ]));
@@ -202,7 +213,7 @@ class UsersCommands extends DrushCommands
                     throw new UserAbortException();
                 }
 
-                if (drush_invoke_process('@self', 'user:block', [$block_list])) {
+                if (Drush::drush($this->siteAliasManager()->getSelf(), 'user:block', [$block_list])->mustRun()) {
                     \Drupal::state()->set('utog_previous', $previous);
                     \Drupal::state()->set('utog_status', 'blocked');
                 }
@@ -231,11 +242,44 @@ class UsersCommands extends DrushCommands
                     throw new UserAbortException();
                 }
 
-                if (drush_invoke_process('@self', 'user:unblock', [$unblock_list])) {
+                if (Drush::drush($this->siteAliasManager()->getSelf(), 'user:unblock', [$unblock_list])->mustRun()) {
                      \Drupal::state()->set('utog_previous', []);
                     \Drupal::state()->set('utog_status', 'unblocked');
                 }
             }
         }
+    }
+
+    /**
+     * A flatter and simpler array presentation of a Drupal $user object.
+     *
+     * @param \Drupal\user\Entity\User $account
+     *   A user account.
+     *
+     * @return array
+     */
+    protected function infoArray($account)
+    {
+        /** @var \Drupal\Core\DateTime\DateFormatter $date_formatter */
+        $date_formatter = \Drupal::service('date.formatter');
+
+        return [
+            'uid' => $account->id(),
+            'name' => $account->getAccountName(),
+            'pass' => $account->getPassword(),
+            'mail' => $account->getEmail(),
+            'user_created' => $account->getCreatedTime(),
+            'created' => $date_formatter->format($account->getCreatedTime()),
+            'user_access' => $account->getLastAccessedTime(),
+            'access' => $date_formatter->format($account->getLastAccessedTime()),
+            'user_login' => $account->getLastLoginTime(),
+            'login' => $date_formatter->format($account->getLastLoginTime()),
+            'user_status' => $account->get('status')->value,
+            'status' => $account->isActive() ? 'active' : 'blocked',
+            'timezone' => $account->getTimeZone(),
+            'roles' => $account->getRoles(),
+            'langcode' => $account->getPreferredLangcode(),
+            'uuid' => $account->uuid->value,
+        ];
     }
 }

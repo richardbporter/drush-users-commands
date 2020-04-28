@@ -4,7 +4,7 @@
 Drush commands to interact with multiple Drupal users.
 
 ## Requirements
-- Drush ^9.4
+- Drush ^9.6 || ^10.2
 - Drupal 8
 
 ## Installation
@@ -14,7 +14,7 @@ packages to:
  ```
  "drush/Commands/{$name}": ["type:drupal-drush"]
  ```
- Then install it as usual: 
+ Then install it as usual:
  ```
  composer require richardbporter/drush-users-commands
  ```
