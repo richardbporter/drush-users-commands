@@ -14,6 +14,9 @@ matrix:
 
 before_install:
   - composer self-update
+  - cd .. && mkdir Commands
+  - mv drush-users-commands/ Commands/UsersCommands
+  - cd Commands/UsersCommands
 
 install:
   - composer install --no-suggest --prefer-source
