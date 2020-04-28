@@ -26,7 +26,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    * @option last-login Filter by last login date. Can be relative.
    * @usage users:list
    *   Display all users on the site.
-   * @usage usesr:list --status=blocked
+   * @usage users:list --status=blocked
    *   Displays a list of blocked users.
    * @usage users:list --roles=admin
    *   Displays a list of users with the admin role.
