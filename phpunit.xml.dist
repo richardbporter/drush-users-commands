@@ -3,7 +3,7 @@
     backupStaticAttributes="false"
     syntaxCheck="false"
     colors="true"
-    bootstrap="vendor/autoload.php">
+    bootstrap="tests/bootstrap.php">
   <testsuites>
     <testsuite name="DrushUsersCommands Test Suite">
       <directory>./tests/</directory>

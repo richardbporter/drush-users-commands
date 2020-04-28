@@ -18,13 +18,13 @@ abstract class TestBase extends CommandUnishTestCase
         $this->siteOptions = [
           'root' => $root,
           'uri' => $site,
-          'yes' => null,
+          'yes' => null
         ];
 
         $this->jsonOption = [
           'format' => 'json',
         ];
 
-        $this->drush('cr', [], $this->siteOptions);
+        $this->drush('cache:rebuild', [], $this->siteOptions);
     }
 }
