@@ -4,7 +4,7 @@
 Drush commands to interact with multiple Drupal users.
 
 ## Requirements
-- Drush ^9.4 || ^10.2
+- Drush ^9.6 || ^10.2
 - Drupal 8
 
 ## Installation
