@@ -2,6 +2,7 @@
   "name": "richardbporter/drush-users-commands",
   "description": "Drush commands to interact with multiple Drupal users.",
   "type": "drupal-drush",
+  "license": "GPL-2.0-or-later",
   "keywords": ["drush", "drupal", "user-list", "list-users"],
   "authors": [
     {
