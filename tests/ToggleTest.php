@@ -46,9 +46,9 @@ class ToggleTestCase extends TestBase
         $output = $this->getOutputFromJSON();
 
         foreach ($output as $user) {
-            if ($user->name == 'bar') {
+            if ($user['name'] == 'bar') {
                 $this->assertEquals(0, $user['user_status']);
-            } elseif ($user->name == 'foo') {
+            } elseif ($user['name'] == 'foo') {
                 $this->assertEquals(1, $user['user_status']);
             }
         }
