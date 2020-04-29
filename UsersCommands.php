@@ -92,7 +92,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
             }
 
             $result = new RowsOfFields($rows);
-            $result->addRendererFunction(function($key, $cellData, FormatterOptions $options) {
+            $result->addRendererFunction(function ($key, $cellData, FormatterOptions $options) {
                 if (is_array($cellData)) {
                     return implode("\n", $cellData);
                 }
