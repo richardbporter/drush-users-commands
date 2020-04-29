@@ -3,7 +3,7 @@ sudo: false
 language: php
 
 php:
-- '7.3'
+  - '7.3'
 
 cache:
   directories:
@@ -11,6 +11,9 @@ cache:
 
 matrix:
   fast_finish: true
+
+services:
+  - mysql
 
 before_install:
   - composer self-update
