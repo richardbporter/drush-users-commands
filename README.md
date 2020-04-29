@@ -18,7 +18,8 @@ packages to:
  ```
  composer require richardbporter/drush-users-commands
  ```
-
+ Note that the directory the package is installed to (UsersCommands) differs from the repository name (drush-users-commands) due to the [installer name property]( https://github.com/richardbporter/drush-users-commands/blob/00901a53914ea9cbf94409bfdc7708fd6581e6bd/composer.json#L35).
+ 
 ## Commands
 
 ### drush users:list
