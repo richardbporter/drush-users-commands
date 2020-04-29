@@ -3,7 +3,7 @@ sudo: false
 language: php
 
 php:
-- '7.3'
+  - '7.3'
 
 cache:
   directories:
@@ -12,11 +12,17 @@ cache:
 matrix:
   fast_finish: true
 
+services:
+  - mysql
+
 before_install:
   - composer self-update
+  - cd .. && mkdir Commands
+  - mv drush-users-commands/ Commands/UsersCommands
+  - cd Commands/UsersCommands
 
 install:
-  - composer install --no-suggest --prefer-source
+  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-suggest --no-scripts --prefer-source
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
 
 script:

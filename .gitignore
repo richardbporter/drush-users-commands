@@ -1,6 +1,4 @@
 vendor
 .idea
 .vscode
-composer.lock
-Commands
 .scenarios.lock
