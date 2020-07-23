@@ -37,16 +37,20 @@ class ListTestCase extends TestBase
     /**
      * Test role option.
      */
-    public function testUsersReturnedByRole()
+    public function testUsersReturnedByMultipleRoles()
     {
+        $this->drush('role:create', ['publisher'], $this->siteOptions);
+        $this->drush('user:create', ['baz'], $this->siteOptions);
+
         $this->drush(
             'users:list',
             [],
-            $this->siteOptions + ['roles' => 'editor']
+            $this->siteOptions + ['roles' => 'editor,publisher']
         );
 
         $output = $this->getOutput();
         $this->assertContains('foo', $output);
+        $this->assertContains('baz', $output);
         $this->assertNotContains('bar', $output);
         $this->assertNotContains('admin', $output);
     }
