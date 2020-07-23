@@ -41,6 +41,7 @@ class ListTestCase extends TestBase
     {
         $this->drush('role:create', ['publisher'], $this->siteOptions);
         $this->drush('user:create', ['baz'], $this->siteOptions);
+        $this->drush('user:role:add', ['publisher', 'baz'], $this->siteOptions);
 
         $this->drush(
             'users:list',
