@@ -69,11 +69,11 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
             ->condition('uid', 0, '!=');
 
         if (isset($options['status'])) {
-            $query->condition('status', $options['status']);
+            $query->condition('status', $options['status'], '=');
         }
 
         if (isset($options['roles'])) {
-            $query->condition('roles', $options['roles']);
+            $query->condition('roles', $options['roles'], 'IN');
         }
 
         if (isset($options['last-login'])) {
