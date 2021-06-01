@@ -69,11 +69,7 @@ class ListTestCase extends TestBase
         $this->drush('user:create', ['qux'], $this->siteOptions);
         $this->drush('user:role:add', ['owner', 'qux'], $this->siteOptions);
 
-        $this->drush(
-          'users:list',
-          [],
-          $this->siteOptions + ['no-roles' => 'editor,publisher']
-        );
+        $this->drush('users:list', [], $this->siteOptions + ['no-roles' => 'editor,publisher']);
 
         $output = $this->getOutput();
         $this->assertContains('qux', $output);
