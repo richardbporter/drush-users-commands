@@ -9,7 +9,7 @@ class ListTestCase extends TestBase
     /**
      * Set up each test.
      */
-    public function setUp()
+    public function setUp() :void
     {
         parent::setUp();
 
