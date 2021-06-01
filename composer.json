@@ -29,7 +29,7 @@
   "extra": {
     "drush": {
       "services": {
-        "drush.services.yml": "^9.6"
+        "drush.services.yml": "^10.2"
       }
     },
     "installer-name": "UsersCommands",
