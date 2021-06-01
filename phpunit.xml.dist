@@ -9,12 +9,6 @@
     </testsuite>
   </testsuites>
 
-  <filter>
-    <blacklist>
-      <directory>./vendor/</directory>
-    </blacklist>
-  </filter>
-
   <php>
     <!-- These variables may alternatively be set as environment variables. -->
     <!-- Drupal major version to run tests over -->
