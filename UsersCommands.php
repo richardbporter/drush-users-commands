@@ -22,7 +22,8 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    * @command users:list
    * @param array $options An associative array of options.
    * @option status Filter by status of the account. Can be active or blocked.
-   * @option roles A comma separated list of roles to filter by.
+   * @option roles Filter by accounts having a role. Use a comma-separated list for more than one.
+   * @option no-roles Filter by accounts not having a role. Use a comma-separated list for more than one.
    * @option last-login Filter by last login date. Can be relative.
    * @usage users:list
    *   Display all users on the site.
@@ -62,7 +63,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    * @throws \Exception
    * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
    */
-    public function listAll($options = ['status' => InputOption::VALUE_REQUIRED, 'roles' => InputOption::VALUE_REQUIRED, 'last-login' => InputOption::VALUE_REQUIRED])
+    public function listAll($options = ['status' => InputOption::VALUE_REQUIRED, 'roles' => InputOption::VALUE_REQUIRED, 'no-roles' => InputOption::VALUE_REQUIRED, 'last-login' => InputOption::VALUE_REQUIRED])
     {
         // Use an entityQuery to dynamically set property conditions.
         $query = \Drupal::entityQuery('user')
@@ -75,6 +76,10 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
         if (isset($options['roles'])) {
             $query->condition('roles', $options['roles'], 'IN');
         }
+
+      if (isset($options['no-roles'])) {
+        $query->condition('roles', $options['no-roles'], 'NOT IN');
+      }
 
         if (isset($options['last-login'])) {
             $timestamp = strtotime($options['last-login']);
