@@ -78,7 +78,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
         }
 
         if (isset($options['no-roles'])) {
-            $query->condition('roles', explode(',', $options['no-roles']), 'NOT IN');
+            $query->condition('roles', $options['no-roles'], 'NOT IN');
         }
 
         if (isset($options['last-login'])) {
@@ -139,22 +139,24 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
             $input->setOption('status', array_search($status, $options));
         }
 
-        // Set the roles option to an array but validate each one exists.
-        if ($roles = $input->getOption('roles')) {
-            $roles = explode(',', $roles);
-            $actual = user_roles(true);
-            $rids = [];
+        // Set the (no-)roles options to an array but validate each one exists.
+        $actual = user_roles(true);
 
-            // Throw an exception for non-existent roles.
-            foreach ($roles as $role) {
-                if (!isset($actual[$role])) {
-                    throw new \Exception(dt('Role @role does not exist.', [
-                      '@role' => $role
-                    ]));
+        foreach (['roles', 'no-roles'] as $option) {
+            if ($roles = $input->getOption($option)) {
+                $roles = explode(',', $roles);
+
+                // Throw an exception for non-existent roles.
+                foreach ($roles as $role) {
+                    if (!isset($actual[$role])) {
+                        throw new \Exception(dt('Role @role does not exist.', [
+                            '@role' => $role
+                        ]));
+                    }
                 }
-            }
 
-            $input->setOption('roles', $roles);
+                $input->setOption($option, $roles);
+            }
         }
 
         // Validate the last-login option.
