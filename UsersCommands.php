@@ -77,9 +77,9 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
             $query->condition('roles', $options['roles'], 'IN');
         }
 
-      if (isset($options['no-roles'])) {
-        $query->condition('roles', $options['no-roles'], 'NOT IN');
-      }
+        if (isset($options['no-roles'])) {
+            $query->condition('roles', $options['no-roles'], 'NOT IN');
+        }
 
         if (isset($options['last-login'])) {
             $timestamp = strtotime($options['last-login']);
