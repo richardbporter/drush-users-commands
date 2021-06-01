@@ -1,7 +1,6 @@
 <!-- Copy and rename to phpunit.xml. Customize as needed. -->
 <phpunit backupGlobals="false"
     backupStaticAttributes="false"
-    syntaxCheck="false"
     colors="true"
     bootstrap="tests/bootstrap.php">
   <testsuites>
