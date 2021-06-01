@@ -56,30 +56,30 @@ class ListTestCase extends TestBase
         $this->assertNotContains('admin', $output);
     }
 
-  /**
-   * Test no-role option.
-   */
-  public function testUsersReturnedByMultipleNoRoles()
-  {
-      $this->drush('role:create', ['publisher'], $this->siteOptions);
-      $this->drush('user:create', ['baz'], $this->siteOptions);
-      $this->drush('user:role:add', ['publisher', 'baz'], $this->siteOptions);
+    /**
+     * Test no-role option.
+     */
+    public function testUsersReturnedByMultipleNoRoles()
+    {
+        $this->drush('role:create', ['publisher'], $this->siteOptions);
+        $this->drush('user:create', ['baz'], $this->siteOptions);
+        $this->drush('user:role:add', ['publisher', 'baz'], $this->siteOptions);
 
-      $this->drush('role:create', ['owner'], $this->siteOptions);
-      $this->drush('user:create', ['qux'], $this->siteOptions);
-      $this->drush('user:role:add', ['owner', 'qux'], $this->siteOptions);
+        $this->drush('role:create', ['owner'], $this->siteOptions);
+        $this->drush('user:create', ['qux'], $this->siteOptions);
+        $this->drush('user:role:add', ['owner', 'qux'], $this->siteOptions);
 
-      $this->drush(
-        'users:list',
-        [],
-        $this->siteOptions + ['no-roles' => 'editor,publisher']
-      );
+        $this->drush(
+          'users:list',
+          [],
+          $this->siteOptions + ['no-roles' => 'editor,publisher']
+        );
 
-      $output = $this->getOutput();
-      $this->assertContains('qux', $output);
-      $this->assertNotContains('foo', $output);
-      $this->assertNotContains('baz', $output);
-  }
+        $output = $this->getOutput();
+        $this->assertContains('qux', $output);
+        $this->assertNotContains('foo', $output);
+        $this->assertNotContains('baz', $output);
+    }
 
     /**
      * Test status option.
