@@ -21,8 +21,10 @@ before_install:
   - mv drush-users-commands/ Commands/UsersCommands
   - cd Commands/UsersCommands
 
+# The first composer install fails. Need to stop using merge plugin.
 install:
-  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-suggest --no-scripts --prefer-source
+  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-scripts --prefer-source || true
+  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-scripts --prefer-source
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
 
 script:

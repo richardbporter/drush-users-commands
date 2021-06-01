@@ -9,7 +9,7 @@ abstract class TestBase extends CommandUnishTestCase
     public $siteOptions = [];
     public $jsonOption = [];
 
-    public function setUp()
+    public function setUp() :void
     {
         $sites = $this->setUpDrupal(1, true);
         $site = key($sites);
