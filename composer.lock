@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a1211f85112ef8ff964f16348fda726",
+    "content-hash": "16d4910f4c70d27017c1ed87d889e606",
     "packages": [
         {
             "name": "chi-teck/drupal-code-generator",
@@ -8175,59 +8175,6 @@
             "time": "2020-01-16T13:33:13+00:00"
         },
         {
-            "name": "wikimedia/composer-merge-plugin",
-            "version": "v2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wikimedia/composer-merge-plugin.git",
-                "reference": "8ca2ed8ab97c8ebce6b39d9943e9909bb4f18912"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wikimedia/composer-merge-plugin/zipball/8ca2ed8ab97c8ebce6b39d9943e9909bb4f18912",
-                "reference": "8ca2ed8ab97c8ebce6b39d9943e9909bb4f18912",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.1||^2.0",
-                "php": ">=7.2.0"
-            },
-            "require-dev": {
-                "composer/composer": "^1.1||^2.0",
-                "php-parallel-lint/php-parallel-lint": "~1.1.0",
-                "phpunit/phpunit": "^8.5||^9.0",
-                "squizlabs/php_codesniffer": "~3.5.4"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                },
-                "class": "Wikimedia\\Composer\\Merge\\V2\\MergePlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "Wikimedia\\Composer\\Merge\\V2\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bryan Davis",
-                    "email": "bd808@wikimedia.org"
-                }
-            ],
-            "description": "Composer plugin to merge multiple composer.json files",
-            "support": {
-                "issues": "https://github.com/wikimedia/composer-merge-plugin/issues",
-                "source": "https://github.com/wikimedia/composer-merge-plugin/tree/v2.0.1"
-            },
-            "time": "2021-02-24T05:28:06+00:00"
-        },
-        {
             "name": "yoast/phpunit-polyfills",
             "version": "0.2.0",
             "source": {
@@ -8303,5 +8250,5 @@
         "ext-dom": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
