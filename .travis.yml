@@ -17,14 +17,9 @@ services:
 
 before_install:
   - composer self-update
-  - cd .. && mkdir Commands
-  - mv drush-users-commands/ Commands/UsersCommands
-  - cd Commands/UsersCommands
 
-# The first composer install fails. Need to stop using merge plugin.
 install:
-  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-scripts --prefer-source || true
-  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-scripts --prefer-source
+  - composer install --no-scripts
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
 
 script:
