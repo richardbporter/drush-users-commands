@@ -196,7 +196,7 @@ class ListTest extends TestCase
         $this->assertStringNotContainsString('baz', $output);
         $this->assertStringNotContainsString('foo', $output);
 
-        // If baz is not in the output then 'admin' has to match user name.
+        // If baz is not in the output then 'admin' has to match username.
         $this->assertStringContainsString('admin', $output);
     }
 
