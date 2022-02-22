@@ -37,7 +37,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    * @bootstrap full
    * @field-labels
    *   uid: User ID
-   *   name: User name
+   *   name: Username
    *   pass: Password
    *   mail: User mail
    *   theme: User theme
@@ -261,7 +261,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
      * A flatter and simpler array presentation of a Drupal $user object.
      *
      * @param \Drupal\user\Entity\User $account
-     *   A user account.
+     *   A user account object.
      *
      * @return array
      */
