@@ -41,10 +41,10 @@ class ListTest extends TestCase
         $this->drush('users:list', []);
 
         $output = $this->getOutput();
-        $this->assertContains('foo', $output);
-        $this->assertContains('bar', $output);
-        $this->assertContains('admin', $output);
-        $this->assertNotContains('anonymous', $output);
+        $this->assertStringContainsString('foo', $output);
+        $this->assertStringContainsString('bar', $output);
+        $this->assertStringContainsString('admin', $output);
+        $this->assertStringNotContainsString('anonymous', $output);
     }
 
     /**
@@ -63,10 +63,10 @@ class ListTest extends TestCase
         );
 
         $output = $this->getOutput();
-        $this->assertContains('foo', $output);
-        $this->assertContains('baz', $output);
-        $this->assertNotContains('bar', $output);
-        $this->assertNotContains('admin', $output);
+        $this->assertStringContainsString('foo', $output);
+        $this->assertStringContainsString('baz', $output);
+        $this->assertStringNotContainsString('bar', $output);
+        $this->assertStringNotContainsString('admin', $output);
     }
 
     /**
@@ -85,9 +85,9 @@ class ListTest extends TestCase
         $this->drush('users:list', [], ['no-roles' => 'editor,publisher']);
 
         $output = $this->getOutput();
-        $this->assertContains('qux', $output);
-        $this->assertNotContains('foo', $output);
-        $this->assertNotContains('baz', $output);
+        $this->assertStringContainsString('qux', $output);
+        $this->assertStringNotContainsString('foo', $output);
+        $this->assertStringNotContainsString('baz', $output);
     }
 
     /**
@@ -102,9 +102,9 @@ class ListTest extends TestCase
         );
 
         $output = $this->getOutput();
-        $this->assertNotContains('foo', $output);
-        $this->assertContains('bar', $output);
-        $this->assertNotContains('admin', $output);
+        $this->assertStringNotContainsString('foo', $output);
+        $this->assertStringContainsString('bar', $output);
+        $this->assertStringNotContainsString('admin', $output);
     }
 
     /**
@@ -127,9 +127,9 @@ class ListTest extends TestCase
         );
 
         $output = $this->getOutput();
-        $this->assertContains('admin', $output);
-        $this->assertNotContains('foo', $output);
-        $this->assertNotContains('bar', $output);
+        $this->assertStringContainsString('admin', $output);
+        $this->assertStringNotContainsString('foo', $output);
+        $this->assertStringNotContainsString('bar', $output);
     }
 
     /**
@@ -148,10 +148,10 @@ class ListTest extends TestCase
         );
 
         $output = $this->getOutput();
-        $this->assertNotContains('foo', $output);
-        $this->assertNotContains('bar', $output);
-        $this->assertNotContains('admin', $output);
-        $this->assertContains('baz', $output);
+        $this->assertStringNotContainsString('foo', $output);
+        $this->assertStringNotContainsString('bar', $output);
+        $this->assertStringNotContainsString('admin', $output);
+        $this->assertStringContainsString('baz', $output);
     }
 
     /**
@@ -193,11 +193,11 @@ class ListTest extends TestCase
         );
 
         $output = $this->getOutput();
-        $this->assertNotContains('baz', $output);
-        $this->assertNotContains('foo', $output);
+        $this->assertStringNotContainsString('baz', $output);
+        $this->assertStringNotContainsString('foo', $output);
 
         // If baz is not in the output then 'admin' has to match user name.
-        $this->assertContains('admin', $output);
+        $this->assertStringContainsString('admin', $output);
     }
 
     /**
@@ -215,7 +215,7 @@ class ListTest extends TestCase
             1
         );
 
-        $this->assertContains('Role garbage does not exist.', $this->getErrorOutput());
+        $this->assertStringContainsString('Role garbage does not exist.', $this->getErrorOutput());
 
         // Status 'garbage' does not exist;
         $this->drush(
@@ -227,6 +227,6 @@ class ListTest extends TestCase
             1
         );
 
-        $this->assertContains('Unknown status garbage.', $this->getErrorOutput());
+        $this->assertStringContainsString('Unknown status garbage.', $this->getErrorOutput());
     }
 }
