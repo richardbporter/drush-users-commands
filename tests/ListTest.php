@@ -29,8 +29,8 @@ class ListTest extends TestCase
 
     protected function tearDown()
     {
-      parent::tearDown();
-      $this->drush('sql:drop');
+        parent::tearDown();
+        $this->drush('sql:drop');
     }
 
   /**
