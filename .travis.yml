@@ -23,5 +23,5 @@ install:
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
 
 script:
-  - ./vendor/bin/phpcs --standard=PSR2 . --ignore='.scenarios.lock,vendor,tests/coverage'
+  - ./vendor/bin/phpcs --standard=PSR2 --ignore='sut,vendor' .
   - ./vendor/bin/phpunit
