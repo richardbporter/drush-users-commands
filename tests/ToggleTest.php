@@ -1,11 +1,14 @@
 <?php
 
-namespace DrushUsersCommands\Tests;
+namespace UsersCommands\Tests;
 
-use UsersCommands\Tests\TestBase;
+use Drush\TestTraits\DrushTestTrait;
+use PHPUnit\Framework\TestCase;
 
-class ToggleTestCase extends TestBase
+class ToggleTest extends TestCase
 {
+    use DrushTestTrait;
+
     /**
      * Set up each test.
      */
@@ -13,9 +16,19 @@ class ToggleTestCase extends TestBase
     {
         parent::setUp();
 
-        $this->drush('user:create', ['foo'], $this->siteOptions);
-        $this->drush('user:create', ['bar'], $this->siteOptions);
-        $this->drush('user:block', ['bar'], $this->siteOptions);
+        $this->drush('site:install', ['testing'], [
+          'root' => 'sut',
+        ]);
+
+        $this->drush('user:create', ['foo']);
+        $this->drush('user:create', ['bar']);
+        $this->drush('user:block', ['bar']);
+    }
+
+    protected function tearDown()
+    {
+      parent::tearDown();
+      $this->drush('sql:drop');
     }
 
     /**
@@ -23,8 +36,8 @@ class ToggleTestCase extends TestBase
      */
     public function testUsersBlocked()
     {
-        $this->drush('users:toggle', [], $this->siteOptions);
-        $this->drush('user:information', ['foo, bar'], $this->siteOptions + $this->jsonOption);
+        $this->drush('users:toggle', []);
+        $this->drush('user:information', ['foo, bar'], ['format' => 'json']);
 
         $output = $this->getOutputFromJSON();
 
@@ -39,9 +52,9 @@ class ToggleTestCase extends TestBase
     public function testUsersUnblocked()
     {
         // First block, then unblock.
-        $this->drush('users:toggle', [], $this->siteOptions);
-        $this->drush('users:toggle', [], $this->siteOptions);
-        $this->drush('user:information', ['foo, bar'], $this->siteOptions + $this->jsonOption);
+        $this->drush('users:toggle', []);
+        $this->drush('users:toggle', []);
+        $this->drush('user:information', ['foo, bar'], ['format' => 'json']);
 
         $output = $this->getOutputFromJSON();
 
