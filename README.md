@@ -4,8 +4,8 @@
 Drush commands to interact with multiple Drupal users.
 
 ## Requirements
-- Drush ^9.6 || ^10.2
-- Drupal 8
+- Drush ^11.0.5
+- Drupal ^9.3
 
 ## Installation
 Since this is a [site-wide Drush command](https://docs.drush.org/en/master/commands/#site-wide-drush-commands), it will only be
