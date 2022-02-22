@@ -3,11 +3,11 @@ sudo: false
 language: php
 
 php:
-  - '7.3'
+  - '7.4'
 
 cache:
   directories:
-    - $HOME/.composer/cache
+    - $HOME/.drush/cache
 
 matrix:
   fast_finish: true
@@ -17,16 +17,12 @@ services:
 
 before_install:
   - composer self-update
-  - cd .. && mkdir Commands
-  - mv drush-users-commands/ Commands/UsersCommands
-  - cd Commands/UsersCommands
 
-# The first composer install fails. Need to stop using merge plugin.
 install:
-  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-scripts --prefer-source || true
-  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-scripts --prefer-source
+  - composer install --no-scripts
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+  - ./vendor/bin/drush site:install testing --root sut --db-url mysql://root@localhost/drupal --yes
 
 script:
-  - ./vendor/bin/phpcs --standard=PSR2 . --ignore='.scenarios.lock,vendor,tests/coverage'
+  - ./vendor/bin/phpcs --standard=PSR2 --ignore='sut,vendor' .
   - ./vendor/bin/phpunit

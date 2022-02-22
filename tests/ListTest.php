@@ -1,11 +1,14 @@
 <?php
 
-namespace DrushUsersCommands\Tests;
+namespace UsersCommands\Tests;
 
-use UsersCommands\Tests\TestBase;
+use Drush\TestTraits\DrushTestTrait;
+use PHPUnit\Framework\TestCase;
 
-class ListTestCase extends TestBase
+class ListTest extends TestCase
 {
+    use DrushTestTrait;
+
     /**
      * Set up each test.
      */
@@ -13,19 +16,29 @@ class ListTestCase extends TestBase
     {
         parent::setUp();
 
-        $this->drush('role:create', ['editor'], $this->siteOptions);
-        $this->drush('user:create', ['foo'], $this->siteOptions);
-        $this->drush('user:create', ['bar'], $this->siteOptions);
-        $this->drush('user:block', ['bar'], $this->siteOptions);
-        $this->drush('user:role:add', ['editor', 'foo'], $this->siteOptions);
+        $this->drush('site:install', ['testing'], [
+          'root' => 'sut',
+        ]);
+
+        $this->drush('role:create', ['editor']);
+        $this->drush('user:create', ['foo']);
+        $this->drush('user:create', ['bar']);
+        $this->drush('user:block', ['bar']);
+        $this->drush('user:role:add', ['editor', 'foo']);
     }
 
-    /**
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->drush('sql:drop');
+    }
+
+  /**
      * Test all users are returned.
      */
     public function testAllUsers()
     {
-        $this->drush('users:list', [], $this->siteOptions);
+        $this->drush('users:list', []);
 
         $output = $this->getOutput();
         $this->assertContains('foo', $output);
@@ -39,14 +52,14 @@ class ListTestCase extends TestBase
      */
     public function testUsersReturnedByMultipleRoles()
     {
-        $this->drush('role:create', ['publisher'], $this->siteOptions);
-        $this->drush('user:create', ['baz'], $this->siteOptions);
-        $this->drush('user:role:add', ['publisher', 'baz'], $this->siteOptions);
+        $this->drush('role:create', ['publisher']);
+        $this->drush('user:create', ['baz']);
+        $this->drush('user:role:add', ['publisher', 'baz']);
 
         $this->drush(
             'users:list',
             [],
-            $this->siteOptions + ['roles' => 'editor,publisher']
+            ['roles' => 'editor,publisher']
         );
 
         $output = $this->getOutput();
@@ -61,15 +74,15 @@ class ListTestCase extends TestBase
      */
     public function testUsersReturnedByMultipleNoRoles()
     {
-        $this->drush('role:create', ['publisher'], $this->siteOptions);
-        $this->drush('user:create', ['baz'], $this->siteOptions);
-        $this->drush('user:role:add', ['publisher', 'baz'], $this->siteOptions);
+        $this->drush('role:create', ['publisher']);
+        $this->drush('user:create', ['baz']);
+        $this->drush('user:role:add', ['publisher', 'baz']);
 
-        $this->drush('role:create', ['owner'], $this->siteOptions);
-        $this->drush('user:create', ['qux'], $this->siteOptions);
-        $this->drush('user:role:add', ['owner', 'qux'], $this->siteOptions);
+        $this->drush('role:create', ['owner']);
+        $this->drush('user:create', ['qux']);
+        $this->drush('user:role:add', ['owner', 'qux']);
 
-        $this->drush('users:list', [], $this->siteOptions + ['no-roles' => 'editor,publisher']);
+        $this->drush('users:list', [], ['no-roles' => 'editor,publisher']);
 
         $output = $this->getOutput();
         $this->assertContains('qux', $output);
@@ -85,7 +98,7 @@ class ListTestCase extends TestBase
         $this->drush(
             'users:list',
             [],
-            $this->siteOptions + ['status' => 'blocked']
+            ['status' => 'blocked']
         );
 
         $output = $this->getOutput();
@@ -105,13 +118,12 @@ class ListTestCase extends TestBase
         $this->drush(
             'sql:query',
             ["UPDATE users_field_data SET login={$now} WHERE uid=1;"],
-            $this->siteOptions
         );
 
         $this->drush(
             'users:list',
             [],
-            $this->siteOptions + ['last-login' => 'today']
+            ['last-login' => 'today']
         );
 
         $output = $this->getOutput();
@@ -125,14 +137,14 @@ class ListTestCase extends TestBase
      */
     public function testUsersReturnedByStatusRole()
     {
-        $this->drush('user:create', ['baz'], $this->siteOptions);
-        $this->drush('user:block', ['baz'], $this->siteOptions);
-        $this->drush('user:role:add', ['editor', 'baz'], $this->siteOptions);
+        $this->drush('user:create', ['baz']);
+        $this->drush('user:block', ['baz']);
+        $this->drush('user:role:add', ['editor', 'baz']);
 
         $this->drush(
             'users:list',
             [],
-            $this->siteOptions + ['roles' => 'editor', 'status' => 'blocked']
+            ['roles' => 'editor', 'status' => 'blocked']
         );
 
         $output = $this->getOutput();
@@ -153,30 +165,27 @@ class ListTestCase extends TestBase
         $this->drush(
             'sql:query',
             ["UPDATE users_field_data SET login={$now} WHERE uid=1;"],
-            $this->siteOptions
         );
 
         // Create another administrator.
-        $this->drush('user:create', ['baz'], $this->siteOptions);
-        $this->drush('role:create', ['administrator'], $this->siteOptions);
+        $this->drush('user:create', ['baz']);
+        $this->drush('role:create', ['administrator']);
 
         $this->drush(
             'user:role:add',
             ['administrator', 'baz'],
-            $this->siteOptions
         );
 
         // Give the admin user the administrator role.
         $this->drush(
             'user:role:add',
             ['administrator', 'admin'],
-            $this->siteOptions
         );
 
         $this->drush(
             'users:list',
             [],
-            $this->siteOptions + [
+            [
                 'roles' => 'administrator',
                 'status' => 'active',
                 'last-login' => 'today',
@@ -197,25 +206,25 @@ class ListTestCase extends TestBase
     public function testValidation()
     {
         // Role 'garbage' does not exist.
-        $result = $this->drush(
+        $this->drush(
             'users:list',
             [],
-            $this->siteOptions + ['roles' => 'garbage'],
+            ['roles' => 'garbage'],
             null,
             null,
-            self::EXIT_ERROR
+            1
         );
 
         $this->assertContains('Role garbage does not exist.', $this->getErrorOutput());
 
         // Status 'garbage' does not exist;
-        $result = $this->drush(
+        $this->drush(
             'users:list',
             [],
-            $this->siteOptions + ['status' => 'garbage'],
+            ['status' => 'garbage'],
             null,
             null,
-            self::EXIT_ERROR
+            1
         );
 
         $this->assertContains('Unknown status garbage.', $this->getErrorOutput());
