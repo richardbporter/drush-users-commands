@@ -21,7 +21,7 @@ before_install:
 install:
   - composer install --no-scripts
   - ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
-#  - ./vendor/bin/drush site:install testing --root sut --db-url mysql://root@localhost/drupal --yes
+  - ./vendor/bin/drush site:install testing --root sut --db-url mysql://root@localhost/drupal --yes
 
 script:
   - ./vendor/bin/phpcs --standard=PSR2 --ignore='sut,vendor' .
