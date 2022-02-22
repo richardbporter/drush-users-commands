@@ -7,7 +7,7 @@ php:
 
 cache:
   directories:
-    - $HOME/.composer/cache
+    - $HOME/.drush/cache
 
 matrix:
   fast_finish: true
