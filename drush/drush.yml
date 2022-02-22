@@ -1,0 +1,3 @@
+drush:
+  commands:
+    '\Drush\Commands\UsersCommands\UsersCommands': '${env.cwd}/UsersCommands.php'
