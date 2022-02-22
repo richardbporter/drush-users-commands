@@ -117,7 +117,7 @@ class ListTest extends TestCase
 
         $this->drush(
             'sql:query',
-            ["UPDATE users_field_data SET login={$now} WHERE uid=1;"],
+            ["UPDATE users_field_data SET login=$now WHERE uid=1;"],
         );
 
         $this->drush(
@@ -164,7 +164,7 @@ class ListTest extends TestCase
 
         $this->drush(
             'sql:query',
-            ["UPDATE users_field_data SET login={$now} WHERE uid=1;"],
+            ["UPDATE users_field_data SET login=$now WHERE uid=1;"],
         );
 
         // Create another administrator.
