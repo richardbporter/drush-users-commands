@@ -18,6 +18,7 @@ class ToggleTest extends TestCase
 
         $this->drush('site:install', ['testing'], [
           'root' => 'sut',
+          'db-url' => getenv('TEST_DB_URL'),
         ]);
 
         $this->drush('user:create', ['foo']);
