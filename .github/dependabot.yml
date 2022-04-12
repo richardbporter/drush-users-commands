@@ -6,7 +6,5 @@ updates:
     interval: monthly
     time: "11:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: drush/drush
-    versions:
-    - 10.3.6
+  reviewers:
+    - richardbporter
