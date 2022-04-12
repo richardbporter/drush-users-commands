@@ -1,5 +1,6 @@
-/.github            export-ignore
-/drush              export-ignore
-/tests              export-ignore
-/travis.yml         export-ignore
-/phpunit.xml.dist   export-ignore
+/.github                export-ignore
+/drush                  export-ignore
+/tests                  export-ignore
+/travis.yml             export-ignore
+/phpunit.xml.dist       export-ignore
+/.phpunit.result.cache  export-ignore

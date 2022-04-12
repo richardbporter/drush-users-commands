@@ -3,3 +3,4 @@ vendor
 .vscode
 .scenarios.lock
 sut
+.phpunit.result.cache

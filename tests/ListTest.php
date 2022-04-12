@@ -10,7 +10,7 @@ class ListTest extends TestCase
     use DrushTestTrait;
 
     /**
-     * Set up each test.
+     * {@inheritDoc}
      */
     public function setUp() :void
     {
@@ -27,7 +27,10 @@ class ListTest extends TestCase
         $this->drush('user:role:add', ['editor', 'foo']);
     }
 
-    protected function tearDown()
+    /**
+     * {@inheritDoc}
+     */
+    protected function tearDown() :void
     {
         parent::tearDown();
         $this->drush('sql:drop');
