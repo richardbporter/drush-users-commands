@@ -10,7 +10,7 @@ class ToggleTest extends TestCase
     use DrushTestTrait;
 
     /**
-     * Set up each test.
+     * {@inheritDoc}
      */
     public function setUp() :void
     {
@@ -25,7 +25,10 @@ class ToggleTest extends TestCase
         $this->drush('user:block', ['bar']);
     }
 
-    protected function tearDown()
+  /**
+   * {@inheritDoc}
+   */
+    protected function tearDown() :void
     {
         parent::tearDown();
         $this->drush('sql:drop');
