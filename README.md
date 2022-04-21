@@ -8,7 +8,7 @@ Drush commands to interact with multiple Drupal users.
 - Drupal ^9.3
 
 ## Installation
-Since this is a [site-wide Drush command](https://docs.drush.org/en/master/commands/#site-wide-drush-commands), it will only be
+Since this is a [site-wide Drush command](https://www.drush.org/latest/commands/#site-wide-drush-commands), it will only be
 found when installed in certain directories. It is recommended to update your Composer installers path for drupal-drush
 packages to:
  ```
@@ -18,7 +18,7 @@ packages to:
  ```
  composer require richardbporter/drush-users-commands
  ```
- Note that the directory the package is installed to (UsersCommands) differs from the repository name (drush-users-commands) due to the [installer name property]( https://github.com/richardbporter/drush-users-commands/blob/00901a53914ea9cbf94409bfdc7708fd6581e6bd/composer.json#L35).
+ Note that the directory the package is installed to (UsersCommands) differs from the repository name (drush-users-commands) due to the [installer name property]( https://github.com/composer/installers#custom-install-names).
  
 ## Commands
 
