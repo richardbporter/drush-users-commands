@@ -30,5 +30,7 @@ jobs:
       run: ./vendor/bin/drush site:install testing --root sut --db-url mysql://root:root@localhost/drupal --yes
     - name: Run code sniffer
       run: ./vendor/bin/phpcs --standard=PSR2 --ignore='sut,vendor' .
+    - name: Run drupal-check
+      run: ./vendor/bin/drupal-check . -e sut,vendor,.github,drush
     - name: Run unit tests
       run: ./vendor/bin/phpunit
