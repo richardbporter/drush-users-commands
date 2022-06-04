@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Start MySQL
-      run: mysql start
+      run: sudo /etc/init.d/mysql start
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
     - name: Install dependencies
