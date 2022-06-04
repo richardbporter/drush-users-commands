@@ -267,7 +267,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
      */
     protected function infoArray($account)
     {
-        /** @var \Drupal\Core\DateTime\DateFormatter $date_formatter */
+        /** @var \Drupal\Core\Datetime\DateFormatter $date_formatter */
         $date_formatter = \Drupal::service('date.formatter');
 
         return [
