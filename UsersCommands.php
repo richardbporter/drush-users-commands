@@ -114,7 +114,6 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
      * @hook validate users:list
      *
      * @param \Consolidation\AnnotatedCommand\CommandData $commandData
-     * @return \Consolidation\AnnotatedCommand\CommandError|null
      *
      * @throws \Exception
      */
