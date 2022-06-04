@@ -17,6 +17,8 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: drupal
+        ports:
+          - 3306
     runs-on: ubuntu-latest
     strategy:
       matrix:
