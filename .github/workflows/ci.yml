@@ -23,6 +23,8 @@ jobs:
       run: composer validate --strict
     - name: Install dependencies
       run: composer install --prefer-dist --no-scripts --no-suggest --no-interaction
+    - name: Ignore PHPCS warnings
+      run: ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
     - name: Install drupal
       run: ./vendor/bin/drush site:install testing --root sut --db-url mysql://root:root@localhost/drupal --yes
     - name: Run code sniffer
