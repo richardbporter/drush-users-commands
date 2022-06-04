@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   build:
+    name: GitHub Action - CI
     runs-on: ubuntu-latest
     strategy:
       matrix:
