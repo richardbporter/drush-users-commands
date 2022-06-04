@@ -5,231 +5,224 @@ namespace UsersCommands\Tests;
 use Drush\TestTraits\DrushTestTrait;
 use PHPUnit\Framework\TestCase;
 
-class ListTest extends TestCase
-{
-    use DrushTestTrait;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUp() :void
-    {
-        parent::setUp();
-
-        $this->drush('site:install', ['testing'], [
-          'root' => 'sut',
-        ]);
-
-        $this->drush('role:create', ['editor']);
-        $this->drush('user:create', ['foo']);
-        $this->drush('user:create', ['bar']);
-        $this->drush('user:block', ['bar']);
-        $this->drush('user:role:add', ['editor', 'foo']);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function tearDown() :void
-    {
-        parent::tearDown();
-        $this->drush('sql:drop');
-    }
+/**
+ * Tests for users:list command.
+ */
+class ListTest extends TestCase {
+  use DrushTestTrait;
 
   /**
-     * Test all users are returned.
-     */
-    public function testAllUsers()
-    {
-        $this->drush('users:list', []);
+   * {@inheritDoc}
+   */
+  public function setUp() :void {
+    parent::setUp();
 
-        $output = $this->getOutput();
-        $this->assertStringContainsString('foo', $output);
-        $this->assertStringContainsString('bar', $output);
-        $this->assertStringContainsString('admin', $output);
-        $this->assertStringNotContainsString('anonymous', $output);
-    }
+    $this->drush('site:install', ['testing'], [
+      'root' => 'sut',
+    ]);
 
-    /**
-     * Test role option.
-     */
-    public function testUsersReturnedByMultipleRoles()
-    {
-        $this->drush('role:create', ['publisher']);
-        $this->drush('user:create', ['baz']);
-        $this->drush('user:role:add', ['publisher', 'baz']);
+    $this->drush('role:create', ['editor']);
+    $this->drush('user:create', ['foo']);
+    $this->drush('user:create', ['bar']);
+    $this->drush('user:block', ['bar']);
+    $this->drush('user:role:add', ['editor', 'foo']);
+  }
 
-        $this->drush(
-            'users:list',
-            [],
-            ['roles' => 'editor,publisher']
-        );
+  /**
+   * {@inheritDoc}
+   */
+  protected function tearDown() :void {
+    parent::tearDown();
+    $this->drush('sql:drop');
+  }
 
-        $output = $this->getOutput();
-        $this->assertStringContainsString('foo', $output);
-        $this->assertStringContainsString('baz', $output);
-        $this->assertStringNotContainsString('bar', $output);
-        $this->assertStringNotContainsString('admin', $output);
-    }
+  /**
+   * Test all users are returned.
+   */
+  public function testAllUsers() {
+    $this->drush('users:list', []);
 
-    /**
-     * Test no-role option.
-     */
-    public function testUsersReturnedByMultipleNoRoles()
-    {
-        $this->drush('role:create', ['publisher']);
-        $this->drush('user:create', ['baz']);
-        $this->drush('user:role:add', ['publisher', 'baz']);
+    $output = $this->getOutput();
+    $this->assertStringContainsString('foo', $output);
+    $this->assertStringContainsString('bar', $output);
+    $this->assertStringContainsString('admin', $output);
+    $this->assertStringNotContainsString('anonymous', $output);
+  }
 
-        $this->drush('role:create', ['owner']);
-        $this->drush('user:create', ['qux']);
-        $this->drush('user:role:add', ['owner', 'qux']);
+  /**
+   * Test role option.
+   */
+  public function testUsersReturnedByMultipleRoles() {
+    $this->drush('role:create', ['publisher']);
+    $this->drush('user:create', ['baz']);
+    $this->drush('user:role:add', ['publisher', 'baz']);
 
-        $this->drush('users:list', [], ['no-roles' => 'editor,publisher']);
+    $this->drush(
+          'users:list',
+          [],
+          ['roles' => 'editor,publisher']
+      );
 
-        $output = $this->getOutput();
-        $this->assertStringContainsString('qux', $output);
-        $this->assertStringNotContainsString('foo', $output);
-        $this->assertStringNotContainsString('baz', $output);
-    }
+    $output = $this->getOutput();
+    $this->assertStringContainsString('foo', $output);
+    $this->assertStringContainsString('baz', $output);
+    $this->assertStringNotContainsString('bar', $output);
+    $this->assertStringNotContainsString('admin', $output);
+  }
 
-    /**
-     * Test status option.
-     */
-    public function testUsersReturnedByStatus()
-    {
-        $this->drush(
-            'users:list',
-            [],
-            ['status' => 'blocked']
-        );
+  /**
+   * Test no-role option.
+   */
+  public function testUsersReturnedByMultipleNoRoles() {
+    $this->drush('role:create', ['publisher']);
+    $this->drush('user:create', ['baz']);
+    $this->drush('user:role:add', ['publisher', 'baz']);
 
-        $output = $this->getOutput();
-        $this->assertStringNotContainsString('foo', $output);
-        $this->assertStringContainsString('bar', $output);
-        $this->assertStringNotContainsString('admin', $output);
-    }
+    $this->drush('role:create', ['owner']);
+    $this->drush('user:create', ['qux']);
+    $this->drush('user:role:add', ['owner', 'qux']);
 
-    /**
-     * Test last-login option.
-     */
-    public function testUsersReturnedByLogin()
-    {
-        // Update the login time for user 1. Drush user:login does not do this.
-        $now = time();
+    $this->drush('users:list', [], ['no-roles' => 'editor,publisher']);
 
-        $this->drush(
-            'sql:query',
-            ["UPDATE users_field_data SET login=$now WHERE uid=1;"],
-        );
+    $output = $this->getOutput();
+    $this->assertStringContainsString('qux', $output);
+    $this->assertStringNotContainsString('foo', $output);
+    $this->assertStringNotContainsString('baz', $output);
+  }
 
-        $this->drush(
-            'users:list',
-            [],
-            ['last-login' => 'today']
-        );
+  /**
+   * Test status option.
+   */
+  public function testUsersReturnedByStatus() {
+    $this->drush(
+          'users:list',
+          [],
+          ['status' => 'blocked']
+      );
 
-        $output = $this->getOutput();
-        $this->assertStringContainsString('admin', $output);
-        $this->assertStringNotContainsString('foo', $output);
-        $this->assertStringNotContainsString('bar', $output);
-    }
+    $output = $this->getOutput();
+    $this->assertStringNotContainsString('foo', $output);
+    $this->assertStringContainsString('bar', $output);
+    $this->assertStringNotContainsString('admin', $output);
+  }
 
-    /**
-     * Test status and role options in combination.
-     */
-    public function testUsersReturnedByStatusRole()
-    {
-        $this->drush('user:create', ['baz']);
-        $this->drush('user:block', ['baz']);
-        $this->drush('user:role:add', ['editor', 'baz']);
+  /**
+   * Test last-login option.
+   */
+  public function testUsersReturnedByLogin() {
+    // Update the login time for user 1. Drush user:login does not do this.
+    $now = time();
 
-        $this->drush(
-            'users:list',
-            [],
-            ['roles' => 'editor', 'status' => 'blocked']
-        );
+    $this->drush(
+          'sql:query',
+          ["UPDATE users_field_data SET login=$now WHERE uid=1;"],
+      );
 
-        $output = $this->getOutput();
-        $this->assertStringNotContainsString('foo', $output);
-        $this->assertStringNotContainsString('bar', $output);
-        $this->assertStringNotContainsString('admin', $output);
-        $this->assertStringContainsString('baz', $output);
-    }
+    $this->drush(
+          'users:list',
+          [],
+          ['last-login' => 'today']
+      );
 
-    /**
-     * Test status, role and last-login options in combination.
-     */
-    public function testUsersReturnedByStatusRoleLogin()
-    {
-        // Update the login time for user 1. Drush user:login does not do this.
-        $now = time();
+    $output = $this->getOutput();
+    $this->assertStringContainsString('admin', $output);
+    $this->assertStringNotContainsString('foo', $output);
+    $this->assertStringNotContainsString('bar', $output);
+  }
 
-        $this->drush(
-            'sql:query',
-            ["UPDATE users_field_data SET login=$now WHERE uid=1;"],
-        );
+  /**
+   * Test status and role options in combination.
+   */
+  public function testUsersReturnedByStatusRole() {
+    $this->drush('user:create', ['baz']);
+    $this->drush('user:block', ['baz']);
+    $this->drush('user:role:add', ['editor', 'baz']);
 
-        // Create another administrator.
-        $this->drush('user:create', ['baz']);
-        $this->drush('role:create', ['administrator']);
+    $this->drush(
+          'users:list',
+          [],
+          ['roles' => 'editor', 'status' => 'blocked']
+      );
 
-        $this->drush(
-            'user:role:add',
-            ['administrator', 'baz'],
-        );
+    $output = $this->getOutput();
+    $this->assertStringNotContainsString('foo', $output);
+    $this->assertStringNotContainsString('bar', $output);
+    $this->assertStringNotContainsString('admin', $output);
+    $this->assertStringContainsString('baz', $output);
+  }
 
-        // Give the admin user the administrator role.
-        $this->drush(
-            'user:role:add',
-            ['administrator', 'admin'],
-        );
+  /**
+   * Test status, role and last-login options in combination.
+   */
+  public function testUsersReturnedByStatusRoleLogin() {
+    // Update the login time for user 1. Drush user:login does not do this.
+    $now = time();
 
-        $this->drush(
-            'users:list',
-            [],
-            [
-                'roles' => 'administrator',
-                'status' => 'active',
-                'last-login' => 'today',
-            ]
-        );
+    $this->drush(
+          'sql:query',
+          ["UPDATE users_field_data SET login=$now WHERE uid=1;"],
+      );
 
-        $output = $this->getOutput();
-        $this->assertStringNotContainsString('baz', $output);
-        $this->assertStringNotContainsString('foo', $output);
+    // Create another administrator.
+    $this->drush('user:create', ['baz']);
+    $this->drush('role:create', ['administrator']);
 
-        // If baz is not in the output then 'admin' has to match username.
-        $this->assertStringContainsString('admin', $output);
-    }
+    $this->drush(
+          'user:role:add',
+          ['administrator', 'baz'],
+      );
 
-    /**
-     * Test validation.
-     */
-    public function testValidation()
-    {
-        // Role 'garbage' does not exist.
-        $this->drush(
-            'users:list',
-            [],
-            ['roles' => 'garbage'],
-            null,
-            null,
-            1
-        );
+    // Give the admin user the administrator role.
+    $this->drush(
+          'user:role:add',
+          ['administrator', 'admin'],
+      );
 
-        $this->assertStringContainsString('Role garbage does not exist.', $this->getErrorOutput());
+    $this->drush(
+          'users:list',
+          [],
+          [
+            'roles' => 'administrator',
+            'status' => 'active',
+            'last-login' => 'today',
+          ]
+      );
 
-        // Status 'garbage' does not exist;
-        $this->drush(
-            'users:list',
-            [],
-            ['status' => 'garbage'],
-            null,
-            null,
-            1
-        );
+    $output = $this->getOutput();
+    $this->assertStringNotContainsString('baz', $output);
+    $this->assertStringNotContainsString('foo', $output);
 
-        $this->assertStringContainsString('Unknown status garbage.', $this->getErrorOutput());
-    }
+    // If baz is not in the output then 'admin' has to match username.
+    $this->assertStringContainsString('admin', $output);
+  }
+
+  /**
+   * Test validation.
+   */
+  public function testValidation() {
+    // Role 'garbage' does not exist.
+    $this->drush(
+          'users:list',
+          [],
+          ['roles' => 'garbage'],
+          NULL,
+          NULL,
+          1
+      );
+
+    $this->assertStringContainsString('Role garbage does not exist.', $this->getErrorOutput());
+
+    // Status 'garbage' does not exist;.
+    $this->drush(
+          'users:list',
+          [],
+          ['status' => 'garbage'],
+          NULL,
+          NULL,
+          1
+      );
+
+    $this->assertStringContainsString('Unknown status garbage.', $this->getErrorOutput());
+  }
+
 }
