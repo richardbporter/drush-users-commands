@@ -11,6 +11,12 @@ permissions:
 
 jobs:
   build:
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: drupal
     runs-on: ubuntu-latest
     strategy:
       matrix:
