@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-scripts --no-suggest --no-interaction
     - name: Install drupal
-      run: ./vendor/bin/drush site:install testing --root sut --db-url mysql://root@localhost/drupal --yes
+      run: ./vendor/bin/drush site:install testing --root sut --db-url mysql://root:root@localhost/drupal --yes
     - name: Run code sniffer
       run: ./vendor/bin/phpcs --standard=PSR2 --ignore='sut,vendor' .
     - name: Run unit tests
