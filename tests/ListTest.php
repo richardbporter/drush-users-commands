@@ -6,7 +6,7 @@ use Drush\TestTraits\DrushTestTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
- *
+ * Tests for users:list command.
  */
 class ListTest extends TestCase {
   use DrushTestTrait;

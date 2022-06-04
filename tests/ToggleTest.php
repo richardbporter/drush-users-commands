@@ -6,7 +6,7 @@ use Drush\TestTraits\DrushTestTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
- *
+ * Tests for users:toggle command.
  */
 class ToggleTest extends TestCase {
   use DrushTestTrait;

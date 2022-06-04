@@ -14,7 +14,7 @@ use Drush\SiteAlias\SiteAliasManagerAwareInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- *
+ * Users command class.
  */
 class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterface {
   use SiteAliasManagerAwareTrait;
@@ -22,9 +22,10 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
   /**
    * Display a list of Drupal users.
    *
-   * @command users:list
    * @param array $options
    *   An associative array of options.
+   *
+   * @command users:list
    *
    * @option status Filter by status of the account. Can be active or blocked.
    * @option roles Filter by accounts having a role. Use a comma-separated list for more than one.
@@ -69,8 +70,14 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    * @throws \Exception
    *
    * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
+   *   The users as a RowsOfFields.
    */
-  public function listAll($options = ['status' => InputOption::VALUE_REQUIRED, 'roles' => InputOption::VALUE_REQUIRED, 'no-roles' => InputOption::VALUE_REQUIRED, 'last-login' => InputOption::VALUE_REQUIRED]) {
+  public function listAll(array $options = [
+    'status' => InputOption::VALUE_REQUIRED,
+    'roles' => InputOption::VALUE_REQUIRED,
+    'no-roles' => InputOption::VALUE_REQUIRED,
+    'last-login' => InputOption::VALUE_REQUIRED,
+  ]) {
     // Use an entityQuery to dynamically set property conditions.
     $query = \Drupal::entityQuery('user')
       ->condition('uid', 0, '!=');
@@ -118,9 +125,12 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
   }
 
   /**
-   * @hook validate users:list
+   * Validate the users:list command.
    *
    * @param \Consolidation\AnnotatedCommand\CommandData $commandData
+   *   The command data.
+   *
+   * @hook validate users:list
    *
    * @throws \Exception
    */
@@ -271,8 +281,9 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    *   A user account object.
    *
    * @return array
+   *   An array of user information.
    */
-  protected function infoArray($account) {
+  protected function infoArray(User $account) {
     /** @var \Drupal\Core\Datetime\DateFormatter $date_formatter */
     $date_formatter = \Drupal::service('date.formatter');
 
