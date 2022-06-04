@@ -21,7 +21,8 @@
     "drupal/core-recommended": "^9.3",
     "drupal/core-composer-scaffold": "^9.3",
     "mglaman/drupal-check": "^1.4",
-    "symfony/phpunit-bridge": "^6.1"
+    "symfony/phpunit-bridge": "^6.1",
+    "drupal/coder": "^8.3"
   },
   "autoload-dev": {
     "psr-4": {
@@ -61,7 +62,8 @@
   "config": {
     "allow-plugins": {
       "composer/installers": true,
-      "drupal/core-composer-scaffold": true
+      "drupal/core-composer-scaffold": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }
