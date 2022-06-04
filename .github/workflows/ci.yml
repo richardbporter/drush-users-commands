@@ -18,7 +18,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Update composer
+      run: composer self-update
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
     - name: Install dependencies
-      run: composer install --no-scripts --no-progress
+      run: composer install --prefer-dist --no-scripts --no-suggest --no-interaction
