@@ -11,21 +11,14 @@ permissions:
 
 jobs:
   build:
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: drupal
-        ports:
-          - 3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     runs-on: ubuntu-latest
     strategy:
       matrix:
         php: [7.4, 8.1]
     steps:
     - uses: actions/checkout@v3
+    - name: Start MySQL
+      run: mysql start
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
     - name: Install dependencies
