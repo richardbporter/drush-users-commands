@@ -31,6 +31,6 @@ jobs:
     - name: Run code sniffer
       run: ./vendor/bin/phpcs --standard=PSR2 --ignore='sut,vendor' .
     - name: Run drupal-check
-      run: ./vendor/bin/drupal-check . -e sut,vendor,.github,drush
+      run: ./vendor/bin/drupal-check UsersCommands.php tests/
     - name: Run unit tests
       run: ./vendor/bin/phpunit
