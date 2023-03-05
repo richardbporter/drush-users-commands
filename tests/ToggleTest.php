@@ -19,6 +19,7 @@ class ToggleTest extends TestCase {
 
     $this->drush('site:install', ['testing'], [
       'root' => 'sut',
+      'db-url' => getenv('DRUPAL_TEST_DB_URL'),
     ]);
 
     $this->drush('config:set', ['user.settings', 'notify.status_activated', 0]);

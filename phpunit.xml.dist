@@ -11,6 +11,6 @@
 
   <php>
     <!--DB User must have create/drop permissions-->
-    <var name="TEST_DB_URL" value="mysql://root@localhost/drupal"/>
+    <env name="DRUPAL_TEST_DB_URL" value="mysql://root@localhost/drupal"/>
   </php>
 </phpunit>
