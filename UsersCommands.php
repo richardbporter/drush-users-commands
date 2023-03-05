@@ -80,6 +80,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
   ]) {
     // Use an entityQuery to dynamically set property conditions.
     $query = \Drupal::entityQuery('user')
+      ->accessCheck(FALSE)
       ->condition('uid', 0, '!=');
 
     if (isset($options['status'])) {
@@ -196,6 +197,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
   public function toggle() {
     // Get all users.
     $ids = \Drupal::entityQuery('user')
+      ->accessCheck(FALSE)
       ->condition('uid', 0, '!=')
       ->execute();
 
