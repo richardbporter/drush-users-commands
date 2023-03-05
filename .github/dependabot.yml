@@ -4,7 +4,11 @@ updates:
   directory: "/"
   schedule:
     interval: monthly
-    time: "11:00"
-  open-pull-requests-limit: 10
+  reviewers:
+    - richardbporter
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: monthly
   reviewers:
     - richardbporter
