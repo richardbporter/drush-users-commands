@@ -2,9 +2,9 @@
 
 namespace Drush\Commands\UsersCommands;
 
+use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\OutputFormatters\Options\FormatterOptions;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
-use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
 use Drupal\user\Entity\User;
 use Drush\Commands\DrushCommands;
