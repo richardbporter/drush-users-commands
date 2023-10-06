@@ -8,9 +8,7 @@ Drush commands to interact with multiple Drupal users.
 - Drupal ^10.1
 
 ## Installation
-Since this is a [site-wide Drush command](https://www.drush.org/latest/commands/#site-wide-commands), it will only be
-found when installed in certain directories. It is recommended to update your Composer installers path for drupal-drush
-packages to:
+Since this is a [site-wide Drush command](https://www.drush.org/latest/commands/#site-wide-commands), it will only be found when installed in certain directories. It is recommended to update your Composer installers path for drupal-drush packages to:
  ```
  "drush/Commands/{$name}": ["type:drupal-drush"]
  ```
