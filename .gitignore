@@ -7,3 +7,4 @@ sut
 .phpunit.result.cache
 .DS_Store
 phpunit.xml
+drush
