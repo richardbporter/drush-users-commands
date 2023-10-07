@@ -30,11 +30,6 @@
     }
   },
   "extra": {
-    "drush": {
-      "services": {
-        "drush.services.yml": "^12"
-      }
-    },
     "installer-name": "UsersCommands",
     "installer-paths": {
       "sut/core": ["type:drupal-core"],
