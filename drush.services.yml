@@ -1,5 +1,0 @@
-services:
-  users.commands:
-    class: \Drush\Commands\UsersCommands
-    tags:
-      - { name: drush.command }

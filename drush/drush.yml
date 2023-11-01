@@ -1,5 +1,0 @@
-# Register the command in the SUT.
-# https://github.com/drush-ops/example-drush-extension
-drush:
-  commands:
-    '\Drush\Commands\UsersCommands\UsersCommands': '${env.cwd}/UsersCommands.php'

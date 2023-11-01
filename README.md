@@ -4,13 +4,11 @@
 Drush commands to interact with multiple Drupal users.
 
 ## Requirements
-- Drush ^11.0.5
-- Drupal ^9.3 || ^10.0
+- Drush ^12.2
+- Drupal ^10.1
 
 ## Installation
-Since this is a [site-wide Drush command](https://www.drush.org/latest/commands/#site-wide-drush-commands), it will only be
-found when installed in certain directories. It is recommended to update your Composer installers path for drupal-drush
-packages to:
+Since this is a [site-wide Drush command](https://www.drush.org/latest/commands/#site-wide-commands), it will only be found when installed in certain directories. It is recommended to update your Composer installers path for drupal-drush packages to:
  ```
  "drush/Commands/{$name}": ["type:drupal-drush"]
  ```
@@ -19,7 +17,7 @@ packages to:
  composer require richardbporter/drush-users-commands
  ```
  Note that the directory the package is installed to (UsersCommands) differs from the repository name (drush-users-commands) due to the [installer name property]( https://github.com/composer/installers#custom-install-names).
- 
+
 ## Commands
 
 ### drush users:list
