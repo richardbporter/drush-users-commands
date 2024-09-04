@@ -6,6 +6,7 @@ use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\OutputFormatters\Options\FormatterOptions;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
+use Drupal\user\Entity\Role;
 use Drupal\user\Entity\User;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
@@ -72,12 +73,14 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
    *   The users as a RowsOfFields.
    */
-  public function listAll(array $options = [
-    'status' => InputOption::VALUE_REQUIRED,
-    'roles' => InputOption::VALUE_REQUIRED,
-    'no-roles' => InputOption::VALUE_REQUIRED,
-    'last-login' => InputOption::VALUE_REQUIRED,
-  ]) {
+  public function listAll(
+    array $options = [
+      'status' => InputOption::VALUE_REQUIRED,
+      'roles' => InputOption::VALUE_REQUIRED,
+      'no-roles' => InputOption::VALUE_REQUIRED,
+      'last-login' => InputOption::VALUE_REQUIRED,
+    ],
+  ) {
     // Use an entityQuery to dynamically set property conditions.
     $query = \Drupal::entityQuery('user')
       ->accessCheck(FALSE)
@@ -156,7 +159,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
     }
 
     // Set the (no-)roles options to an array but validate each one exists.
-    $actual = user_roles(TRUE);
+    $actual = Role::loadMultiple();
 
     foreach (['roles', 'no-roles'] as $option) {
       if ($roles = $input->getOption($option)) {

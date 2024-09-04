@@ -20,7 +20,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Start MySQL
       run: sudo /etc/init.d/mysql start
-    - name: Validate composer.json and composer.lock
+    - name: Validate composer.json
       run: composer validate --strict
     - name: Install dependencies
       run: composer install --prefer-dist --no-scripts --no-suggest --no-interaction

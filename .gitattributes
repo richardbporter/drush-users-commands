@@ -3,3 +3,4 @@
 /tests                  export-ignore
 /phpunit.xml.dist       export-ignore
 /.phpunit.result.cache  export-ignore
+/.devcontainer          export-ignore

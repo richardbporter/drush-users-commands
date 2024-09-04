@@ -12,3 +12,7 @@ updates:
     interval: monthly
   reviewers:
     - richardbporter
+- package-ecosystem: devcontainers
+   directory: "/"
+   schedule:
+     interval: monthly
