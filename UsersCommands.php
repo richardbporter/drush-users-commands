@@ -72,12 +72,14 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
    *   The users as a RowsOfFields.
    */
-  public function listAll(array $options = [
-    'status' => InputOption::VALUE_REQUIRED,
-    'roles' => InputOption::VALUE_REQUIRED,
-    'no-roles' => InputOption::VALUE_REQUIRED,
-    'last-login' => InputOption::VALUE_REQUIRED,
-  ]) {
+  public function listAll(
+    array $options = [
+      'status' => InputOption::VALUE_REQUIRED,
+      'roles' => InputOption::VALUE_REQUIRED,
+      'no-roles' => InputOption::VALUE_REQUIRED,
+      'last-login' => InputOption::VALUE_REQUIRED,
+    ],
+  ) {
     // Use an entityQuery to dynamically set property conditions.
     $query = \Drupal::entityQuery('user')
       ->accessCheck(FALSE)
