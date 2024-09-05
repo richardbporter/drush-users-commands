@@ -240,10 +240,10 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
           throw new UserAbortException();
         }
 
-        if (Drush::drush($this->siteAliasManager()->getSelf(), 'user:block', [$block_list])->mustRun()) {
-          \Drupal::state()->set('utog_previous', $previous);
-          \Drupal::state()->set('utog_status', 'blocked');
-        }
+        // drush->mustRun() will throw an exception if not successful.
+        Drush::drush($this->siteAliasManager()->getSelf(), 'user:block', [$block_list])->mustRun();
+        \Drupal::state()->set('utog_previous', $previous);
+        \Drupal::state()->set('utog_status', 'blocked');
       }
       else {
         if (\Drupal::configFactory()->getEditable('user.settings')->get('notify.status_activated')) {
@@ -271,10 +271,10 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
           throw new UserAbortException();
         }
 
-        if (Drush::drush($this->siteAliasManager()->getSelf(), 'user:unblock', [$unblock_list])->mustRun()) {
-          \Drupal::state()->set('utog_previous', []);
-          \Drupal::state()->set('utog_status', 'unblocked');
-        }
+        // drush->mustRun() will throw an exception if not successful.
+        Drush::drush($this->siteAliasManager()->getSelf(), 'user:unblock', [$unblock_list])->mustRun();
+        \Drupal::state()->set('utog_previous', []);
+        \Drupal::state()->set('utog_status', 'unblocked');
       }
     }
   }
