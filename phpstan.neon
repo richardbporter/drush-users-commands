@@ -1,5 +1,7 @@
 parameters:
-    level: 1
+    level: 3
+    scanDirectories:
+        - vendor/drush/drush/src-symfony-compatibility
     ignoreErrors:
         - '#\Drupal calls should be avoided in classes, use dependency injection instead#'
 		
