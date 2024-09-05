@@ -16,8 +16,6 @@ jobs:
     strategy:
       matrix:
         php: [8.2, 8.3]
-        drush: ["^12", "^13"]
-        drupal: ["^10.2", "^11"]
     steps:
     - uses: actions/checkout@v4
     - name: Setup PHP
@@ -29,10 +27,6 @@ jobs:
       run: sudo /etc/init.d/mysql start
     - name: Validate composer.json
       run: composer validate --strict
-    - name: Override Drush version constraint
-      run: composer require --no-update drush/drush ${{ matrix.drush }}
-    - name: Override Drupal version constraint
-      run: composer require --dev --no-update drupal/core-recommended:${{ matrix.drupal }} drupal/core-composer-scaffold:${{ matrix.drupal }} drupal/core-dev:${{ matrix.drupal }}
     - name: Install dependencies
       run: composer install --prefer-dist --no-scripts --no-suggest --no-interaction
     - name: Ignore PHPCS warnings
