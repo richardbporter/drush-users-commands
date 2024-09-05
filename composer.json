@@ -17,7 +17,7 @@
   },
   "require-dev": {
     "drupal/core-recommended": "^10.2",
-    "drupal/core-composer-scaffold": "^10.2",
+    "drupal/core-composer-scaffold": "^11.0",
     "drupal/core-dev": "^10.2"
   },
   "autoload-dev": {
