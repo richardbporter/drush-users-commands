@@ -25,9 +25,9 @@ jobs:
     - name: Validate composer.json
       run: composer validate --strict
     - name: Override Drush version constraint
-      run: composer require --no-update drush/drush {{ matrix.drush }}
+      run: composer require --no-update drush/drush ${{ matrix.drush }}
     - name: Override Drupal version constraint
-      run: composer require --dev --no-update drupal/core-recommended:{{ matrix.drupal }} drupal/core-composer-scaffold:{{ matrix.drupal }} drupal/core-dev:{{ matrix.drupal }}
+      run: composer require --dev --no-update drupal/core-recommended:${{ matrix.drupal }} drupal/core-composer-scaffold:${{ matrix.drupal }} drupal/core-dev:${{ matrix.drupal }}
     - name: Install dependencies
       run: composer install --prefer-dist --no-scripts --no-suggest --no-interaction
     - name: Ignore PHPCS warnings
