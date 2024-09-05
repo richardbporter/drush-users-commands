@@ -15,15 +15,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [8.2, 8.3]
+        php: [8.1, 8.2, 8.3]
     steps:
     - uses: actions/checkout@v4
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        coverage: none
     - name: Start MySQL
       run: sudo /etc/init.d/mysql start
     - name: Validate composer.json
       run: composer validate --strict
     - name: Install dependencies
-      run: composer install --prefer-dist --no-scripts --no-suggest --no-interaction
+      run: composer install --prefer-dist --no-scripts --no-interaction
     - name: Ignore PHPCS warnings
       run: ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
     - name: Install drupal
