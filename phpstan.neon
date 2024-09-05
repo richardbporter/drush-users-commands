@@ -1,5 +1,5 @@
 parameters:
-    level: 4
+    level: 6
     scanDirectories:
         - vendor/drush/drush/src-symfony-compatibility
     ignoreErrors:

@@ -40,7 +40,7 @@ class ToggleTest extends TestCase {
   /**
    * Test users are correctly blocked.
    */
-  public function testUsersBlocked() {
+  public function testUsersBlocked(): void {
     $this->drush('users:toggle', []);
     $this->drush('user:information', ['foo, bar'], ['format' => 'json']);
 
@@ -54,7 +54,7 @@ class ToggleTest extends TestCase {
   /**
    * Test users are correctly unblocked.
    */
-  public function testUsersUnblocked() {
+  public function testUsersUnblocked(): void {
     // First block, then unblock.
     $this->drush('users:toggle', []);
     $this->drush('users:toggle', []);

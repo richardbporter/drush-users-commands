@@ -23,7 +23,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
   /**
    * Display a list of Drupal users.
    *
-   * @param array $options
+   * @param array<mixed> $options
    *   An associative array of options.
    *
    * @command users:list
@@ -80,7 +80,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
       'no-roles' => InputOption::VALUE_REQUIRED,
       'last-login' => InputOption::VALUE_REQUIRED,
     ],
-  ) {
+  ): RowsOfFields {
     // Use an entityQuery to dynamically set property conditions.
     $query = \Drupal::entityQuery('user')
       ->accessCheck(FALSE)
@@ -138,7 +138,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    *
    * @throws \Exception
    */
-  public function validateList(CommandData $commandData) {
+  public function validateList(CommandData $commandData): void {
     $input = $commandData->input();
 
     $options = [
@@ -197,7 +197,7 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    * @aliases utog
    * @bootstrap full
    */
-  public function toggle() {
+  public function toggle(): void {
     // Get all users.
     $ids = \Drupal::entityQuery('user')
       ->accessCheck(FALSE)
@@ -285,10 +285,10 @@ class UsersCommands extends DrushCommands implements SiteAliasManagerAwareInterf
    * @param \Drupal\user\Entity\User $account
    *   A user account object.
    *
-   * @return array
+   * @return array<mixed>
    *   An array of user information.
    */
-  protected function infoArray(User $account) {
+  protected function infoArray(User $account): array {
     /** @var \Drupal\Core\Datetime\DateFormatter $date_formatter */
     $date_formatter = \Drupal::service('date.formatter');
 
