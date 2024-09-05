@@ -4,8 +4,8 @@
 Drush commands to interact with multiple Drupal users.
 
 ## Requirements
-- Drush ^12.2
-- Drupal ^10.2
+- Drush ^12.2 || ^13.0
+- Drupal ^10.2 || ^11.0
 
 ## Installation
 Since this is a [site-wide Drush command](https://www.drush.org/latest/commands/#site-wide-commands), it will only be found when installed in certain directories. It is recommended to update your Composer installers path for drupal-drush packages to:
