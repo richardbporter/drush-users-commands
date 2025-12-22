@@ -40,7 +40,7 @@ class ListTest extends TestCase {
   /**
    * Test all users are returned.
    */
-  public function testAllUsers() {
+  public function testAllUsers(): void {
     $this->drush('users:list', []);
 
     $output = $this->getOutput();
@@ -53,7 +53,7 @@ class ListTest extends TestCase {
   /**
    * Test role option.
    */
-  public function testUsersReturnedByMultipleRoles() {
+  public function testUsersReturnedByMultipleRoles(): void {
     $this->drush('role:create', ['publisher']);
     $this->drush('user:create', ['baz']);
     $this->drush('user:role:add', ['publisher', 'baz']);
@@ -74,7 +74,7 @@ class ListTest extends TestCase {
   /**
    * Test no-role option.
    */
-  public function testUsersReturnedByMultipleNoRoles() {
+  public function testUsersReturnedByMultipleNoRoles(): void {
     $this->drush('role:create', ['publisher']);
     $this->drush('user:create', ['baz']);
     $this->drush('user:role:add', ['publisher', 'baz']);
@@ -94,7 +94,7 @@ class ListTest extends TestCase {
   /**
    * Test status option.
    */
-  public function testUsersReturnedByStatus() {
+  public function testUsersReturnedByStatus(): void {
     $this->drush(
           'users:list',
           [],
@@ -110,7 +110,7 @@ class ListTest extends TestCase {
   /**
    * Test last-login option.
    */
-  public function testUsersReturnedByLogin() {
+  public function testUsersReturnedByLogin(): void {
     // Update the login time for user 1. Drush user:login does not do this.
     $now = time();
 
@@ -134,7 +134,7 @@ class ListTest extends TestCase {
   /**
    * Test status and role options in combination.
    */
-  public function testUsersReturnedByStatusRole() {
+  public function testUsersReturnedByStatusRole(): void {
     $this->drush('user:create', ['baz']);
     $this->drush('user:block', ['baz']);
     $this->drush('user:role:add', ['editor', 'baz']);
@@ -155,7 +155,7 @@ class ListTest extends TestCase {
   /**
    * Test status, role and last-login options in combination.
    */
-  public function testUsersReturnedByStatusRoleLogin() {
+  public function testUsersReturnedByStatusRoleLogin(): void {
     // Update the login time for user 1. Drush user:login does not do this.
     $now = time();
 
@@ -200,7 +200,7 @@ class ListTest extends TestCase {
   /**
    * Test validation.
    */
-  public function testValidation() {
+  public function testValidation(): void {
     // Role 'garbage' does not exist.
     $this->drush(
           'users:list',
